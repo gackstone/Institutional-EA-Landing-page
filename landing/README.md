@@ -12,12 +12,18 @@ landing/
 ├── js/
 │   └── main.js
 ├── assets/
+│   ├── apple-touch-icon.png
+│   ├── favicon-32.png
+│   ├── favicon-192.png
 │   ├── favicon.svg
+│   ├── logo-source.png
+│   ├── logo.png
 │   ├── logo.svg
 │   ├── mockup-desktop.svg
 │   ├── mockup-desktop-alt.svg
 │   ├── mockup-phone-main.svg
-│   └── mockup-phone-alt.svg
+│   ├── mockup-phone-alt.svg
+│   └── og-image.png
 └── README.md
 ```
 
