@@ -263,6 +263,6 @@ test("landing/index.html and landing/js/main.js contain no hardcoded releases/la
   const mainJs = fs.readFileSync(path.join(LANDING_DIR, "js", "main.js"), "utf8");
   assert.equal(html.includes("releases/latest/download/"), false);
   assert.equal(mainJs.includes("releases/latest/download/"), false);
-  assert.match(html, /id="release-status"/);
+  assert.equal(html.includes('id="release-status"'), false);
   assert.match(html, /js\/releases\.js/);
 });
