@@ -200,6 +200,64 @@ test("DOWNLOAD_URLS matches exact official GitHub URLs and buildFallbackRelease 
   assert.equal(fallback.platforms.ios.url, null);
 });
 
+test("Regression: Windows & Android resolver selects canonical installers over older or debug assets appearing first", () => {
+  const payload = {
+    tag_name: "v1.3.2",
+    draft: false,
+    prerelease: false,
+    assets: [
+      {
+        name: "setup.exe",
+        size: 203844138,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.2/setup.exe",
+      },
+      {
+        name: "Institutional-EA-Setup-1.3.0.exe",
+        size: 203844138,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.2/Institutional-EA-Setup-1.3.0.exe",
+      },
+      {
+        name: "InstitutionalEA-Setup.exe",
+        size: 204805028,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.2/InstitutionalEA-Setup.exe",
+      },
+      {
+        name: "app-debug.apk",
+        size: 50000000,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.2/app-debug.apk",
+      },
+      {
+        name: "InstitutionalEA.aab",
+        size: 26582846,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.2/InstitutionalEA.aab",
+      },
+      {
+        name: "InstitutionalEA.apk",
+        size: 62614507,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.2/InstitutionalEA.apk",
+      },
+    ],
+  };
+
+  const resolved = releases.resolveReleaseAssets(payload);
+  assert.equal(resolved.platforms.windows.name, "InstitutionalEA-Setup.exe");
+  assert.equal(resolved.platforms.android.name, "InstitutionalEA.apk");
+  assert.equal(resolved.platforms.android.aabName, "InstitutionalEA.aab");
+
+  // Debug-only APK must never be treated as a production release
+  const debugOnly = releases.resolveReleaseAssets({
+    tag_name: "v1.3.2",
+    assets: [
+      {
+        name: "app-debug.apk",
+        size: 50000000,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.2/app-debug.apk",
+      },
+    ],
+  });
+  assert.equal(debugOnly.platforms.android.available, false);
+});
+
 test("landing/index.html and landing/js/main.js contain no hardcoded releases/latest/download URLs", () => {
   const html = fs.readFileSync(path.join(LANDING_DIR, "index.html"), "utf8");
   const mainJs = fs.readFileSync(path.join(LANDING_DIR, "js", "main.js"), "utf8");

@@ -31,8 +31,8 @@
       "https://github.com/gackstone/Institutional-EA/releases",
   });
 
-  const CACHE_KEY = "iea_latest_release_v2";
-  const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+  const CACHE_KEY = "iea_latest_release_v3";
+  const CACHE_TTL_MS = 2 * 60 * 1000; // 2 minutes for fast release propagation
   const MAX_RETRIES = 2;
   const RETRY_BASE_DELAY_MS = 800;
   const REQUEST_TIMEOUT_MS = 10000;
@@ -57,11 +57,13 @@
     return IGNORED_SUFFIXES.some((suffix) => lower.endsWith(suffix));
   }
 
-  function pickAsset(assets, extension, preferredPatterns) {
+  function pickAsset(assets, extension, preferredPatterns, excludePatterns) {
+    const excludes = Array.isArray(excludePatterns) ? excludePatterns : [];
     const candidates = assets.filter((asset) => {
       if (!asset || typeof asset.name !== "string") return false;
       if (!isValidHttpsUrl(asset.browser_download_url)) return false;
       if (isIgnoredArtifact(asset.name)) return false;
+      if (excludes.some((re) => re.test(asset.name))) return false;
       return asset.name.toLowerCase().endsWith(extension);
     });
 
@@ -120,10 +122,12 @@
       /^InstitutionalEA-[\d.]+\.dmg$/i,
     ]);
 
-    const androidApkAsset = pickAsset(assets, ".apk", [
-      /^InstitutionalEA\.apk$/i,
-      /^InstitutionalEA-[\d.]+\.apk$/i,
-    ]);
+    const androidApkAsset = pickAsset(
+      assets,
+      ".apk",
+      [/^InstitutionalEA\.apk$/i, /^InstitutionalEA-[\d.]+\.apk$/i],
+      [/debug/i]
+    );
 
     const androidAabAsset = pickAsset(assets, ".aab", [
       /^InstitutionalEA\.aab$/i,
