@@ -40,7 +40,7 @@ const LINKS = {
 };
 ```
 
-Every iOS button across the navigation menu, hero section, and downloads section will automatically enable and wire up with `target="_blank" rel="noopener noreferrer"`.
+Every iOS button across the navigation menu and hero section will automatically enable and wire up with `target="_blank" rel="noopener noreferrer"`.
 
 ## Local Preview
 

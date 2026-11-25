@@ -202,20 +202,6 @@ button {
   transform: translateY(-1px);
 }
 
-.btn-disabled,
-.btn[aria-disabled="true"] {
-  background-color: #eef2f0;
-  color: #6b7885;
-  border-color: var(--color-border);
-  cursor: not-allowed;
-  box-shadow: none;
-  pointer-events: none;
-}
-
-.btn-full {
-  width: 100%;
-}
-
 /* Badges */
 .badge-soon {
   display: inline-flex;
@@ -939,128 +925,7 @@ button {
 }
 
 /* ==========================================================================
-   6. DOWNLOADS SECTION
-   ========================================================================== */
-.downloads-section {
-  background-color: var(--color-bg);
-}
-
-.downloads-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-}
-
-.download-card {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  box-shadow: var(--shadow-card);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.download-card:hover:not(.download-card-soon) {
-  transform: translateY(-3px);
-  border-color: rgba(31, 163, 90, 0.45);
-}
-
-.download-card.is-detected-os {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-ring), var(--shadow-card);
-}
-
-.download-card-head {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 16px;
-}
-
-.platform-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 13px;
-  background-color: var(--color-primary-soft);
-  color: #146c3c;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.download-card-soon .platform-icon {
-  background-color: #f1f4f2;
-  color: #6b7885;
-}
-
-.download-card h3 {
-  font-size: 1.18rem;
-  font-weight: 700;
-}
-
-.title-with-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.file-name {
-  font-size: 0.84rem;
-  color: var(--color-text-muted);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  margin-top: 2px;
-  word-break: break-word;
-}
-
-.install-note {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  margin-bottom: 22px;
-  flex-grow: 1;
-}
-
-.download-card-footer {
-  margin-top: auto;
-}
-
-.downloads-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 12px 18px;
-  margin-top: 34px;
-  text-align: center;
-}
-
-.meta-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #146c3c;
-  padding: 6px 10px;
-  border-radius: 8px;
-  transition: background-color 0.18s ease, color 0.18s ease;
-}
-
-.meta-link:hover {
-  background-color: var(--color-primary-soft);
-  color: #0e532d;
-}
-
-.meta-divider {
-  color: var(--color-border-strong);
-  display: none;
-}
-
-/* ==========================================================================
-   7. FAQ ACCORDION
+   6. FAQ ACCORDION
    ========================================================================== */
 .faq-section {
   background-color: var(--color-surface-muted);
@@ -1243,14 +1108,6 @@ button {
     padding-inline: 28px;
   }
 
-  .downloads-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .meta-divider {
-    display: inline;
-  }
-
   .footer-grid {
     grid-template-columns: 1.5fr 1fr 1fr;
   }
@@ -1368,10 +1225,5 @@ button {
 
   .banner-phone-front {
     transform: translate(-18px, -18px) rotate(7deg);
-  }
-
-  /* Desktop Downloads: 4 columns */
-  .downloads-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }

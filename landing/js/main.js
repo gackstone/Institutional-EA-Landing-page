@@ -33,21 +33,11 @@ const LINKS = {
         el.setAttribute("rel", "noopener noreferrer");
         el.removeAttribute("aria-disabled");
         el.removeAttribute("tabindex");
-        el.classList.remove("is-disabled", "btn-disabled");
+        el.classList.remove("is-disabled");
 
         if (key === "ios") {
-          const card = el.closest(".download-card");
-          if (card) {
-            card.classList.remove("download-card-soon");
-            const badge = card.querySelector(".badge-soon");
-            if (badge) badge.remove();
-          }
-          if (el.classList.contains("btn")) {
-            el.classList.add("btn-primary");
-            el.textContent = "Download";
-          }
-          const storeBadge = el.querySelector(".store-badge-soon");
-          if (storeBadge) storeBadge.remove();
+          const badge = el.querySelector(".store-badge-soon, .badge-soon");
+          if (badge) badge.remove();
         }
       } else {
         el.removeAttribute("href");
