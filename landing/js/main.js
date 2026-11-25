@@ -4,12 +4,10 @@
    ========================================================================== */
 
 const LINKS = {
-  releases: "https://github.com/gackstone/Institutional-EA/releases",
+  whatsapp: "https://wa.me/254712052104",
   windows: "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA-Setup.exe",
   macos: "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.dmg",
   android: "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.apk",
-  checksums: "https://github.com/gackstone/Institutional-EA/releases/latest/download/SHA256SUMS.txt",
-  github: "https://github.com/gackstone/Institutional-EA",
   ios: null, // Paste the iOS download URL here when available
 };
 
