@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 390" width="560" height="390" fill="none">
+  <defs>
+    <linearGradient id="screenBg" x1="0" y1="0" x2="560" y2="390" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#14181F"/>
+      <stop offset="100%" stop-color="#0E1117"/>
+    </linearGradient>
+    <linearGradient id="chartGlow" x1="280" y1="120" x2="280" y2="290" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1FA35A" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#1FA35A" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bezel" x1="0" y1="0" x2="0" y2="390" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2A2F38"/>
+      <stop offset="100%" stop-color="#181C23"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Device Frame -->
+  <rect x="8" y="8" width="544" height="354" rx="20" fill="url(#bezel)" stroke="#383F4B" stroke-width="2"/>
+  <rect x="18" y="18" width="524" height="334" rx="13" fill="url(#screenBg)"/>
+  <!-- Laptop Base Accent -->
+  <rect x="2" y="362" width="556" height="14" rx="7" fill="#232830"/>
+  <rect x="234" y="362" width="92" height="5" rx="2.5" fill="#3C4350"/>
+
+  <!-- Top Bar -->
+  <rect x="18" y="18" width="524" height="40" rx="13" fill="#181D26"/>
+  <rect x="18" y="45" width="524" height="13" fill="#181D26"/>
+  <line x1="18" y1="58" x2="542" y2="58" stroke="#252C38" stroke-width="1"/>
+  <!-- Window Dots -->
+  <circle cx="38" cy="38" r="4.5" fill="#EF6461"/>
+  <circle cx="53" cy="38" r="4.5" fill="#F2B84B"/>
+  <circle cx="68" cy="38" r="4.5" fill="#1FA35A"/>
+  <!-- Title -->
+  <rect x="92" y="32" width="12" height="12" rx="3" fill="#1FA35A"/>
+  <path d="M95 40.5L97.5 38L99.2 39.4L101.5 35.8" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="111" y="42" fill="#E6ECF5" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600">Institutional EA Companion</text>
+  <!-- Status Pill -->
+  <rect x="438" y="27" width="90" height="22" rx="11" fill="#163524" stroke="#1FA35A" stroke-opacity="0.45"/>
+  <circle cx="451" cy="38" r="3.5" fill="#26C66F"/>
+  <text x="460" y="41.5" fill="#9AE6B4" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">MT5 Linked</text>
+
+  <!-- Left Sidebar -->
+  <rect x="18" y="58" width="128" height="294" fill="#12161E"/>
+  <line x1="146" y1="58" x2="146" y2="352" stroke="#252C38" stroke-width="1"/>
+  <!-- Sidebar Active Item -->
+  <rect x="28" y="72" width="108" height="30" rx="8" fill="#1B2A22" stroke="#1FA35A" stroke-opacity="0.35"/>
+  <rect x="38" y="82" width="10" height="10" rx="2.5" fill="#1FA35A"/>
+  <text x="55" y="90.5" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600">Dashboard</text>
+  <!-- Sidebar Secondary Items -->
+  <rect x="38" y="114" width="10" height="10" rx="2.5" fill="#3B4557"/>
+  <rect x="55" y="116" width="56" height="6" rx="3" fill="#3B4557"/>
+  <rect x="38" y="140" width="10" height="10" rx="2.5" fill="#3B4557"/>
+  <rect x="55" y="142" width="66" height="6" rx="3" fill="#3B4557"/>
+  <rect x="38" y="166" width="10" height="10" rx="2.5" fill="#3B4557"/>
+  <rect x="55" y="168" width="48" height="6" rx="3" fill="#3B4557"/>
+
+  <!-- Bot Control Card in Sidebar -->
+  <rect x="28" y="218" width="108" height="118" rx="10" fill="#171C26" stroke="#252C38"/>
+  <text x="38" y="237" fill="#8C99AE" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" letter-spacing="0.5">BOT CONTROLS</text>
+  <rect x="38" y="248" width="88" height="22" rx="6" fill="#1FA35A"/>
+  <text x="82" y="262.5" text-anchor="middle" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700">Start</text>
+  <rect x="38" y="276" width="88" height="22" rx="6" fill="#232B38"/>
+  <text x="82" y="290.5" text-anchor="middle" fill="#CBD5E1" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Pause</text>
+  <rect x="38" y="304" width="88" height="22" rx="6" fill="#2A1F24" stroke="#EF6461" stroke-opacity="0.4"/>
+  <text x="82" y="318.5" text-anchor="middle" fill="#FCA5A5" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Stop</text>
+
+  <!-- Main Chart Area -->
+  <rect x="160" y="72" width="368" height="218" rx="10" fill="#12161E" stroke="#252C38"/>
+  <!-- Chart Header -->
+  <text x="174" y="92" fill="#E6ECF5" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600">Interactive Chart</text>
+  <rect x="282" y="81" width="66" height="16" rx="8" fill="#1E2532"/>
+  <text x="315" y="92" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600">Bot Drawings</text>
+  <rect x="462" y="81" width="54" height="16" rx="8" fill="#163524"/>
+  <text x="489" y="92" text-anchor="middle" fill="#6EE7B7" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600">Live Sync</text>
+
+  <!-- Subtle Grid Lines -->
+  <line x1="174" y1="126" x2="514" y2="126" stroke="#1E2532" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="174" y1="168" x2="514" y2="168" stroke="#1E2532" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="174" y1="210" x2="514" y2="210" stroke="#1E2532" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="174" y1="252" x2="514" y2="252" stroke="#1E2532" stroke-width="1" stroke-dasharray="3 3"/>
+
+  <!-- Bot Drawing Structure Zones -->
+  <rect x="206" y="138" width="128" height="26" rx="4" fill="#1FA35A" fill-opacity="0.14" stroke="#1FA35A" stroke-opacity="0.45" stroke-dasharray="4 3"/>
+  <rect x="356" y="186" width="144" height="24" rx="4" fill="#EF6461" fill-opacity="0.12" stroke="#EF6461" stroke-opacity="0.45" stroke-dasharray="4 3"/>
+
+  <!-- Area Glow + Trend Line -->
+  <path d="M180 242 L212 224 L244 231 L276 196 L308 205 L340 164 L372 176 L404 146 L436 154 L468 128 L504 138 L504 274 L180 274 Z" fill="url(#chartGlow)"/>
+  <path d="M180 242 L212 224 L244 231 L276 196 L308 205 L340 164 L372 176 L404 146 L436 154 L468 128 L504 138" stroke="#22B866" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Abstract Candlesticks -->
+  <g stroke-width="1.5" stroke-linecap="round">
+    <line x1="196" y1="226" x2="196" y2="254" stroke="#22B866"/>
+    <rect x="192" y="232" width="8" height="14" rx="1.5" fill="#22B866"/>
+
+    <line x1="228" y1="216" x2="228" y2="244" stroke="#EF6461"/>
+    <rect x="224" y="223" width="8" height="13" rx="1.5" fill="#EF6461"/>
+
+    <line x1="260" y1="198" x2="260" y2="232" stroke="#22B866"/>
+    <rect x="256" y="206" width="8" height="18" rx="1.5" fill="#22B866"/>
+
+    <line x1="292" y1="186" x2="292" y2="216" stroke="#22B866"/>
+    <rect x="288" y="192" width="8" height="15" rx="1.5" fill="#22B866"/>
+
+    <line x1="324" y1="168" x2="324" y2="204" stroke="#EF6461"/>
+    <rect x="320" y="176" width="8" height="18" rx="1.5" fill="#EF6461"/>
+
+    <line x1="356" y1="154" x2="356" y2="188" stroke="#22B866"/>
+    <rect x="352" y="162" width="8" height="16" rx="1.5" fill="#22B866"/>
+
+    <line x1="388" y1="146" x2="388" y2="180" stroke="#22B866"/>
+    <rect x="384" y="152" width="8" height="18" rx="1.5" fill="#22B866"/>
+
+    <line x1="420" y1="138" x2="420" y2="168" stroke="#EF6461"/>
+    <rect x="416" y="145" width="8" height="14" rx="1.5" fill="#EF6461"/>
+
+    <line x1="452" y1="124" x2="452" y2="158" stroke="#22B866"/>
+    <rect x="448" y="131" width="8" height="18" rx="1.5" fill="#22B866"/>
+
+    <line x1="484" y1="118" x2="484" y2="148" stroke="#22B866"/>
+    <rect x="480" y="125" width="8" height="14" rx="1.5" fill="#22B866"/>
+  </g>
+
+  <!-- Bottom Activity Strip (No fabricated metrics) -->
+  <rect x="160" y="300" width="116" height="36" rx="8" fill="#171C26" stroke="#252C38"/>
+  <circle cx="174" cy="318" r="4" fill="#1FA35A"/>
+  <rect x="184" y="311" width="64" height="5.5" rx="2.75" fill="#CBD5E1"/>
+  <rect x="184" y="321" width="46" height="4.5" rx="2.25" fill="#475569"/>
+
+  <rect x="286" y="300" width="116" height="36" rx="8" fill="#171C26" stroke="#252C38"/>
+  <circle cx="300" cy="318" r="4" fill="#38BDF8"/>
+  <rect x="310" y="311" width="68" height="5.5" rx="2.75" fill="#CBD5E1"/>
+  <rect x="310" y="321" width="42" height="4.5" rx="2.25" fill="#475569"/>
+
+  <rect x="412" y="300" width="116" height="36" rx="8" fill="#171C26" stroke="#252C38"/>
+  <circle cx="426" cy="318" r="4" fill="#F2B84B"/>
+  <rect x="436" y="311" width="62" height="5.5" rx="2.75" fill="#CBD5E1"/>
+  <rect x="436" y="321" width="50" height="4.5" rx="2.25" fill="#475569"/>
+</svg>

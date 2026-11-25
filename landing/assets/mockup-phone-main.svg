@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 560" width="280" height="560" fill="none">
+  <defs>
+    <linearGradient id="phoneBg" x1="0" y1="0" x2="280" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#141922"/>
+      <stop offset="100%" stop-color="#0D1016"/>
+    </linearGradient>
+    <linearGradient id="phoneArea" x1="140" y1="190" x2="140" y2="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1FA35A" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#1FA35A" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Phone Shell -->
+  <rect x="8" y="8" width="264" height="544" rx="40" fill="#1F242D" stroke="#363E4D" stroke-width="2.5"/>
+  <rect x="18" y="18" width="244" height="524" rx="32" fill="url(#phoneBg)"/>
+  <!-- Dynamic Island / Notch -->
+  <rect x="98" y="28" width="84" height="18" rx="9" fill="#090B10"/>
+  <circle cx="164" cy="37" r="3.5" fill="#1C2330"/>
+
+  <!-- App Header -->
+  <rect x="34" y="64" width="22" height="22" rx="6" fill="#1FA35A"/>
+  <path d="M39.5 78.5L43.5 74.5L46.2 76.8L50.5 71.5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="64" y="79" fill="#F1F5F9" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Institutional EA</text>
+  <!-- Read-Only Badge -->
+  <rect x="182" y="65" width="64" height="20" rx="10" fill="#1D2533"/>
+  <text x="214" y="78.5" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600">Read-Only</text>
+
+  <!-- Connection Status Card -->
+  <rect x="34" y="102" width="212" height="58" rx="14" fill="#171E29" stroke="#253041"/>
+  <circle cx="54" cy="131" r="10" fill="#163524"/>
+  <circle cx="54" cy="131" r="4.5" fill="#26C66F"/>
+  <text x="74" y="127" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600">MT5 Bridge Active</text>
+  <rect x="74" y="136" width="94" height="5.5" rx="2.75" fill="#475569"/>
+  <rect x="200" y="121" width="34" height="20" rx="10" fill="#1FA35A" fill-opacity="0.18"/>
+  <text x="217" y="134" text-anchor="middle" fill="#4ADE80" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="700">LIVE</text>
+
+  <!-- Chart Card -->
+  <rect x="34" y="174" width="212" height="190" rx="16" fill="#141A24" stroke="#253041"/>
+  <text x="48" y="196" fill="#E2E8F0" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600">Synced Chart</text>
+  <rect x="174" y="184" width="58" height="17" rx="8.5" fill="#1F2937"/>
+  <text x="203" y="195.5" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600">Drawings</text>
+
+  <!-- Grid -->
+  <line x1="46" y1="226" x2="234" y2="226" stroke="#1E2736" stroke-dasharray="3 3"/>
+  <line x1="46" y1="268" x2="234" y2="268" stroke="#1E2736" stroke-dasharray="3 3"/>
+  <line x1="46" y1="310" x2="234" y2="310" stroke="#1E2736" stroke-dasharray="3 3"/>
+
+  <!-- Zone Highlight -->
+  <rect x="64" y="236" width="110" height="24" rx="4" fill="#1FA35A" fill-opacity="0.14" stroke="#1FA35A" stroke-opacity="0.45" stroke-dasharray="3 3"/>
+
+  <!-- Line + Area -->
+  <path d="M48 318 L74 298 L98 306 L124 270 L150 280 L176 240 L202 250 L230 222 L230 344 L48 344 Z" fill="url(#phoneArea)"/>
+  <path d="M48 318 L74 298 L98 306 L124 270 L150 280 L176 240 L202 250 L230 222" stroke="#22B866" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="230" cy="222" r="4" fill="#22B866"/>
+  <circle cx="230" cy="222" r="8" fill="#22B866" fill-opacity="0.22"/>
+
+  <!-- Activity Feed Rows (Abstract, no fabricated numbers) -->
+  <text x="36" y="388" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.6">RECENT ACTIVITY</text>
+
+  <rect x="34" y="400" width="212" height="40" rx="11" fill="#171E29" stroke="#253041"/>
+  <circle cx="52" cy="420" r="5" fill="#1FA35A"/>
+  <rect x="66" y="413" width="96" height="6" rx="3" fill="#CBD5E1"/>
+  <rect x="66" y="423" width="60" height="4.5" rx="2.25" fill="#475569"/>
+
+  <rect x="34" y="448" width="212" height="40" rx="11" fill="#171E29" stroke="#253041"/>
+  <circle cx="52" cy="468" r="5" fill="#EF6461"/>
+  <rect x="66" y="461" width="108" height="6" rx="3" fill="#CBD5E1"/>
+  <rect x="66" y="471" width="72" height="4.5" rx="2.25" fill="#475569"/>
+
+  <!-- Bottom Home Indicator -->
+  <rect x="102" y="524" width="76" height="4.5" rx="2.25" fill="#3B4557"/>
+</svg>
