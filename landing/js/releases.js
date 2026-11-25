@@ -1,6 +1,7 @@
 /* ==========================================================================
-   Institutional EA — GitHub Releases Resolver & Client Cache
-   Single source of truth: GitHub Releases API (no invented download URLs)
+   Institutional EA — GitHub Releases Resolver, Verified Fallback & Cache
+   Primary: GitHub Releases API (latest published stable release)
+   Fallback: Exact official GitHub download URLs on transient API errors only
    Works in both browser (window.IEAReleases) and Node.js tests (module exports)
    ========================================================================== */
 
@@ -13,9 +14,24 @@
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   "use strict";
 
-  const RELEASES_API_URL =
-    "https://api.github.com/repos/gackstone/Institutional-EA/releases/latest";
-  const CACHE_KEY = "iea_latest_release_v1";
+  const REPO_OWNER = "gackstone";
+  const REPO_NAME = "Institutional-EA";
+  const RELEASES_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest`;
+
+  const DOWNLOAD_URLS = Object.freeze({
+    windows:
+      "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA-Setup.exe",
+    macos:
+      "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.dmg",
+    android:
+      "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.apk",
+    checksums:
+      "https://github.com/gackstone/Institutional-EA/releases/latest/download/SHA256SUMS.txt",
+    releases:
+      "https://github.com/gackstone/Institutional-EA/releases",
+  });
+
+  const CACHE_KEY = "iea_latest_release_v2";
   const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
   const MAX_RETRIES = 2;
   const RETRY_BASE_DELAY_MS = 800;
@@ -58,12 +74,13 @@
     return candidates[0];
   }
 
-  function toPlatformEntry(asset) {
+  function toPlatformEntry(asset, verified) {
     if (!asset) {
-      return { available: false, url: null, name: null, size: null };
+      return { available: false, verified: false, url: null, name: null, size: null };
     }
     return {
       available: true,
+      verified: Boolean(verified),
       url: asset.browser_download_url.trim(),
       name: asset.name,
       size: typeof asset.size === "number" ? asset.size : null,
@@ -71,11 +88,14 @@
   }
 
   /**
-   * Parse a GitHub Release API payload into verified platform download entries.
-   * Never invents URLs — only uses actual browser_download_url values from GitHub.
+   * Parse a GitHub Release API payload into per-platform verified download entries.
+   * Excludes drafts and prereleases; never invents URLs for missing assets.
    */
   function resolveReleaseAssets(release) {
     if (!release || typeof release !== "object" || !Array.isArray(release.assets)) {
+      return null;
+    }
+    if (release.draft === true || release.prerelease === true) {
       return null;
     }
 
@@ -84,7 +104,9 @@
     const version = tagName.replace(/^v/i, "");
     const publishedAt =
       typeof release.published_at === "string" ? release.published_at : null;
-    const htmlUrl = isValidHttpsUrl(release.html_url) ? release.html_url.trim() : null;
+    const htmlUrl = isValidHttpsUrl(release.html_url)
+      ? release.html_url.trim()
+      : DOWNLOAD_URLS.releases;
 
     const winAsset = pickAsset(assets, ".exe", [
       /^InstitutionalEA-Setup\.exe$/i,
@@ -121,20 +143,72 @@
     );
 
     return {
+      source: "github-api",
+      verified: true,
       tagName: tagName || null,
       version: version || null,
       publishedAt,
       htmlUrl,
       checksumsUrl: checksumsAsset ? checksumsAsset.browser_download_url.trim() : null,
       platforms: {
-        windows: toPlatformEntry(winAsset),
-        macos: toPlatformEntry(macAsset),
+        windows: toPlatformEntry(winAsset, true),
+        macos: toPlatformEntry(macAsset, true),
         android: {
-          ...toPlatformEntry(androidApkAsset),
+          ...toPlatformEntry(androidApkAsset, true),
           aabUrl: androidAabAsset ? androidAabAsset.browser_download_url.trim() : null,
           aabName: androidAabAsset ? androidAabAsset.name : null,
         },
-        ios: toPlatformEntry(iosIpaAsset),
+        ios: toPlatformEntry(iosIpaAsset, true),
+      },
+    };
+  }
+
+  /**
+   * Build the official direct-URL fallback structure used ONLY when the GitHub API
+   * is temporarily unavailable (rate limit / 5xx / network outage), never on 404.
+   * Explicitly marks entries as verified: false so UI distinguishes fallback from live API.
+   */
+  function buildFallbackRelease(reasonCode) {
+    return {
+      source: "direct-fallback",
+      verified: false,
+      fallbackReason: reasonCode || "API_UNAVAILABLE",
+      tagName: null,
+      version: null,
+      publishedAt: null,
+      htmlUrl: DOWNLOAD_URLS.releases,
+      checksumsUrl: DOWNLOAD_URLS.checksums,
+      platforms: {
+        windows: {
+          available: true,
+          verified: false,
+          url: DOWNLOAD_URLS.windows,
+          name: "InstitutionalEA-Setup.exe",
+          size: null,
+        },
+        macos: {
+          available: true,
+          verified: false,
+          url: DOWNLOAD_URLS.macos,
+          name: "InstitutionalEA.dmg",
+          size: null,
+        },
+        android: {
+          available: true,
+          verified: false,
+          url: DOWNLOAD_URLS.android,
+          name: "InstitutionalEA.apk",
+          size: null,
+          aabUrl: null,
+          aabName: null,
+        },
+        ios: {
+          available: false,
+          verified: false,
+          url: null,
+          name: null,
+          size: null,
+        },
       },
     };
   }
@@ -193,8 +267,8 @@
   }
 
   /**
-   * Fetch latest GitHub Release with automatic retry on transient errors.
-   * Does not retry on 404 (no public release) or 403 (rate limit).
+   * Fetch latest stable GitHub Release with automatic retry on transient errors.
+   * Does not retry on 404 (no public release / private repo) or 403/429 (rate limit).
    */
   async function fetchLatestRelease(options) {
     const opts = options || {};
@@ -205,7 +279,9 @@
       typeof opts.retryBaseDelayMs === "number" ? opts.retryBaseDelayMs : RETRY_BASE_DELAY_MS;
 
     if (!fetchImpl) {
-      throw new Error("Fetch API is unavailable in this environment.");
+      const err = new Error("Fetch API is unavailable in this environment.");
+      err.code = "NETWORK_ERROR";
+      throw err;
     }
 
     let lastError = null;
@@ -223,7 +299,7 @@
           const payload = await response.json();
           const resolved = resolveReleaseAssets(payload);
           if (!resolved) {
-            const parseErr = new Error("Unexpected release payload from GitHub.");
+            const parseErr = new Error("No published stable release found in GitHub API response.");
             parseErr.code = "INVALID_PAYLOAD";
             throw parseErr;
           }
@@ -241,10 +317,19 @@
           err.code = "RATE_LIMITED";
           throw err;
         }
+        err.code = "API_ERROR";
         lastError = err;
       } catch (err) {
-        if (err && (err.code === "NOT_FOUND" || err.code === "RATE_LIMITED" || err.code === "INVALID_PAYLOAD")) {
+        if (
+          err &&
+          (err.code === "NOT_FOUND" ||
+            err.code === "RATE_LIMITED" ||
+            err.code === "INVALID_PAYLOAD")
+        ) {
           throw err;
+        }
+        if (err && !err.code) {
+          err.code = "NETWORK_ERROR";
         }
         lastError = err;
       }
@@ -254,7 +339,7 @@
       }
     }
 
-    throw lastError || new Error("Unable to reach GitHub Releases API.");
+    throw lastError || Object.assign(new Error("Unable to reach GitHub Releases API."), { code: "NETWORK_ERROR" });
   }
 
   function formatBytes(bytes) {
@@ -281,10 +366,14 @@
   }
 
   return {
+    REPO_OWNER,
+    REPO_NAME,
     RELEASES_API_URL,
+    DOWNLOAD_URLS,
     CACHE_KEY,
     CACHE_TTL_MS,
     resolveReleaseAssets,
+    buildFallbackRelease,
     fetchLatestRelease,
     readCache,
     writeCache,

@@ -180,11 +180,46 @@ const PLATFORM_EXT_LABELS = {
 
     if (state === "ready" && payload) {
       const releasesApi = window.IEAReleases;
-      const versionLabel = payload.tagName || (payload.version ? `v${payload.version}` : "Latest release");
-      const dateStr = releasesApi ? releasesApi.formatPublishedDate(payload.publishedAt) : "";
       const availableCount = PLATFORM_KEYS.filter(
         (k) => payload.platforms && payload.platforms[k] && payload.platforms[k].available
       ).length;
+
+      if (payload.source === "direct-fallback") {
+        text.textContent =
+          payload.fallbackReason === "RATE_LIMITED"
+            ? "Direct GitHub downloads · Live version check rate-limited"
+            : "Direct GitHub downloads · Live version check temporarily unavailable";
+        statusEl.appendChild(text);
+
+        if (payload.checksumsUrl) {
+          const sep = document.createElement("span");
+          sep.className = "release-status-sep";
+          sep.textContent = "·";
+          sep.setAttribute("aria-hidden", "true");
+          statusEl.appendChild(sep);
+
+          const link = document.createElement("a");
+          link.className = "release-status-link";
+          link.href = payload.checksumsUrl;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "SHA-256";
+          statusEl.appendChild(link);
+        }
+
+        const retryBtn = document.createElement("button");
+        retryBtn.type = "button";
+        retryBtn.className = "release-retry-btn";
+        retryBtn.textContent = "Retry";
+        retryBtn.addEventListener("click", () => {
+          loadLatestRelease({ forceRefresh: true });
+        });
+        statusEl.appendChild(retryBtn);
+        return;
+      }
+
+      const versionLabel = payload.tagName || (payload.version ? `v${payload.version}` : "Latest release");
+      const dateStr = releasesApi ? releasesApi.formatPublishedDate(payload.publishedAt) : "";
 
       if (availableCount === 0) {
         statusEl.className = "release-status is-error";
@@ -216,16 +251,33 @@ const PLATFORM_EXT_LABELS = {
       return;
     }
 
-    // Error / Unavailable state
+    // Error / 404 (no public release accessible) state
     const err = payload || {};
+    const releasesApi = window.IEAReleases;
     if (err.code === "NOT_FOUND") {
-      text.textContent = "Latest release is currently unavailable on GitHub.";
+      text.textContent = "No public GitHub release found (repository may be private or unpublished).";
     } else if (err.code === "RATE_LIMITED") {
       text.textContent = "GitHub release check temporarily rate-limited.";
     } else {
       text.textContent = "Unable to load latest release right now.";
     }
     statusEl.appendChild(text);
+
+    if (releasesApi && releasesApi.DOWNLOAD_URLS && releasesApi.DOWNLOAD_URLS.releases) {
+      const sep = document.createElement("span");
+      sep.className = "release-status-sep";
+      sep.textContent = "·";
+      sep.setAttribute("aria-hidden", "true");
+      statusEl.appendChild(sep);
+
+      const relLink = document.createElement("a");
+      relLink.className = "release-status-link";
+      relLink.href = releasesApi.DOWNLOAD_URLS.releases;
+      relLink.target = "_blank";
+      relLink.rel = "noopener noreferrer";
+      relLink.textContent = "GitHub Releases";
+      statusEl.appendChild(relLink);
+    }
 
     const retryBtn = document.createElement("button");
     retryBtn.type = "button";
@@ -238,7 +290,8 @@ const PLATFORM_EXT_LABELS = {
   }
 
   /**
-   * Fetch & hydrate latest GitHub Release with stale-while-revalidate caching.
+   * Fetch & hydrate latest GitHub Release with stale-while-revalidate caching
+   * and safe direct-URL fallback on transient API errors (never concealing HTTP 404).
    */
   async function loadLatestRelease(options) {
     const opts = options || {};
@@ -247,7 +300,7 @@ const PLATFORM_EXT_LABELS = {
 
     const cached = !opts.forceRefresh ? releasesApi.readCache() : null;
 
-    if (cached && cached.data) {
+    if (cached && cached.data && cached.data.verified) {
       applyReleaseToUI(cached.data);
       renderReleaseStatus("ready", cached.data);
       if (cached.isFresh) {
@@ -263,10 +316,20 @@ const PLATFORM_EXT_LABELS = {
       applyReleaseToUI(fresh);
       renderReleaseStatus("ready", fresh);
     } catch (err) {
-      if (cached && cached.data) {
+      if (cached && cached.data && cached.data.verified && err && err.code !== "NOT_FOUND") {
         // Keep previously verified cached links usable if revalidation fails transiently
         return;
       }
+
+      // Transient API outage / rate-limit: use official direct fallback URLs cleanly labeled
+      if (err && (err.code === "RATE_LIMITED" || err.code === "API_ERROR" || err.code === "NETWORK_ERROR")) {
+        const fallback = releasesApi.buildFallbackRelease(err.code);
+        applyReleaseToUI(fallback);
+        renderReleaseStatus("ready", fallback);
+        return;
+      }
+
+      // HTTP 404 (private repo or no published release) or invalid payload: report honestly
       applyReleaseToUI(null);
       renderReleaseStatus("error", err);
     }

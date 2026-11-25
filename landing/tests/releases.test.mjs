@@ -157,6 +157,49 @@ test("fetchLatestRelease fails immediately without retrying on HTTP 404", async 
   assert.equal(calls, 1);
 });
 
+test("resolveReleaseAssets rejects draft and prerelease payloads", () => {
+  assert.equal(
+    releases.resolveReleaseAssets({ tag_name: "v1.3.2-beta", draft: false, prerelease: true, assets: [] }),
+    null
+  );
+  assert.equal(
+    releases.resolveReleaseAssets({ tag_name: "v1.3.2", draft: true, prerelease: false, assets: [] }),
+    null
+  );
+});
+
+test("DOWNLOAD_URLS matches exact official GitHub URLs and buildFallbackRelease marks verified=false", () => {
+  assert.equal(
+    releases.DOWNLOAD_URLS.windows,
+    "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA-Setup.exe"
+  );
+  assert.equal(
+    releases.DOWNLOAD_URLS.macos,
+    "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.dmg"
+  );
+  assert.equal(
+    releases.DOWNLOAD_URLS.android,
+    "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.apk"
+  );
+  assert.equal(
+    releases.DOWNLOAD_URLS.checksums,
+    "https://github.com/gackstone/Institutional-EA/releases/latest/download/SHA256SUMS.txt"
+  );
+  assert.equal(
+    releases.DOWNLOAD_URLS.releases,
+    "https://github.com/gackstone/Institutional-EA/releases"
+  );
+
+  const fallback = releases.buildFallbackRelease("RATE_LIMITED");
+  assert.equal(fallback.source, "direct-fallback");
+  assert.equal(fallback.verified, false);
+  assert.equal(fallback.platforms.windows.url, releases.DOWNLOAD_URLS.windows);
+  assert.equal(fallback.platforms.macos.url, releases.DOWNLOAD_URLS.macos);
+  assert.equal(fallback.platforms.android.url, releases.DOWNLOAD_URLS.android);
+  assert.equal(fallback.platforms.ios.available, false);
+  assert.equal(fallback.platforms.ios.url, null);
+});
+
 test("landing/index.html and landing/js/main.js contain no hardcoded releases/latest/download URLs", () => {
   const html = fs.readFileSync(path.join(LANDING_DIR, "index.html"), "utf8");
   const mainJs = fs.readFileSync(path.join(LANDING_DIR, "js", "main.js"), "utf8");
