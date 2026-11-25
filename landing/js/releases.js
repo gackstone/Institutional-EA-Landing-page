@@ -35,6 +35,7 @@
   const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
   const MAX_RETRIES = 2;
   const RETRY_BASE_DELAY_MS = 800;
+  const REQUEST_TIMEOUT_MS = 10000;
 
   const IGNORED_SUFFIXES = [
     ".sha256",
@@ -286,14 +287,23 @@
 
     let lastError = null;
 
+    const timeoutMs = typeof opts.timeoutMs === "number" ? opts.timeoutMs : REQUEST_TIMEOUT_MS;
+
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      let timerId = null;
       try {
+        const controller = typeof AbortController === "function" ? new AbortController() : null;
+        if (controller && timeoutMs > 0) {
+          timerId = setTimeout(() => controller.abort(), timeoutMs);
+        }
         const response = await fetchImpl(apiUrl, {
           headers: {
             Accept: "application/vnd.github+json",
           },
           cache: "no-cache",
+          signal: controller ? controller.signal : undefined,
         });
+        if (timerId) clearTimeout(timerId);
 
         if (response.ok) {
           const payload = await response.json();
@@ -320,6 +330,7 @@
         err.code = "API_ERROR";
         lastError = err;
       } catch (err) {
+        if (timerId) clearTimeout(timerId);
         if (
           err &&
           (err.code === "NOT_FOUND" ||
@@ -329,7 +340,7 @@
           throw err;
         }
         if (err && !err.code) {
-          err.code = "NETWORK_ERROR";
+          err.code = err.name === "AbortError" ? "TIMEOUT" : "NETWORK_ERROR";
         }
         lastError = err;
       }
