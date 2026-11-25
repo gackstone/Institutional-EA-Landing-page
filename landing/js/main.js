@@ -1,52 +1,275 @@
 /* ==========================================================================
    Institutional EA — Landing Page Script
-   Single source of truth for all external & download links
+   Dynamic GitHub Releases integration + navigation, tabs, FAQ & animations
    ========================================================================== */
 
-const LINKS = {
+const STATIC_LINKS = {
   whatsapp: "https://wa.me/254712052104",
-  windows: "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA-Setup.exe",
-  macos: "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.dmg",
-  android: "https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.apk",
-  ios: null, // Paste the iOS download URL here when available
+};
+
+const PLATFORM_KEYS = ["windows", "macos", "android", "ios"];
+
+const PLATFORM_EXT_LABELS = {
+  windows: ".exe",
+  macos: ".dmg",
+  android: ".apk",
+  ios: ".ipa",
 };
 
 (function () {
   "use strict";
 
+  let activePlatformUrls = {
+    windows: null,
+    macos: null,
+    android: null,
+    ios: null,
+  };
+
+  function preventDisabledClick(event) {
+    if (event.currentTarget.getAttribute("aria-disabled") === "true") {
+      event.preventDefault();
+    }
+  }
+
   /**
-   * Wire all elements with [data-link] from the LINKS object.
-   * Disabled entries (e.g. ios: null) stay non-navigable with aria-disabled="true".
+   * Wire static links (e.g., WhatsApp Support) immediately on page load.
    */
-  function wireLinks() {
-    const linkElements = document.querySelectorAll("[data-link]");
+  function wireStaticLinks() {
+    document.querySelectorAll('[data-link="whatsapp"]').forEach((el) => {
+      el.setAttribute("href", STATIC_LINKS.whatsapp);
+      el.setAttribute("target", "_blank");
+      el.setAttribute("rel", "noopener noreferrer");
+    });
 
-    linkElements.forEach((el) => {
-      const key = el.getAttribute("data-link");
-      const url = key && Object.prototype.hasOwnProperty.call(LINKS, key) ? LINKS[key] : null;
+    PLATFORM_KEYS.forEach((platform) => {
+      document.querySelectorAll(`[data-link="${platform}"]`).forEach((el) => {
+        el.addEventListener("click", preventDisabledClick);
+      });
+    });
+  }
 
-      if (typeof url === "string" && url.trim().length > 0) {
-        el.setAttribute("href", url.trim());
-        el.setAttribute("target", "_blank");
-        el.setAttribute("rel", "noopener noreferrer");
-        el.removeAttribute("aria-disabled");
-        el.removeAttribute("tabindex");
-        el.classList.remove("is-disabled");
+  function ensureBadge(el, text, isDropdown) {
+    const cls = isDropdown ? "badge-soon" : "store-badge-soon";
+    let badge = el.querySelector(`.${cls}`);
+    if (!badge) {
+      badge = document.createElement("span");
+      badge.className = cls;
+      el.appendChild(badge);
+    }
+    badge.textContent = text;
+  }
 
-        if (key === "ios") {
-          const badge = el.querySelector(".store-badge-soon, .badge-soon");
-          if (badge) badge.remove();
-        }
-      } else {
+  function removeBadge(el, isDropdown) {
+    const cls = isDropdown ? "badge-soon" : "store-badge-soon";
+    const badge = el.querySelector(`.${cls}`);
+    if (badge) badge.remove();
+  }
+
+  /**
+   * Put platform download elements into a clean loading state while querying GitHub.
+   */
+  function setPlatformsLoading() {
+    PLATFORM_KEYS.forEach((platform) => {
+      document.querySelectorAll(`[data-link="${platform}"]`).forEach((el) => {
         el.removeAttribute("href");
         el.setAttribute("aria-disabled", "true");
+        el.setAttribute("aria-busy", "true");
         el.setAttribute("tabindex", "-1");
-        el.classList.add("is-disabled");
-        el.addEventListener("click", (event) => {
-          event.preventDefault();
-        });
-      }
+        el.classList.add("is-disabled", "is-loading");
+        el.classList.remove("is-detected-os");
+      });
     });
+  }
+
+  /**
+   * Apply verified GitHub Release platform entries to every download button & dropdown item.
+   */
+  function applyReleaseToUI(release) {
+    const releasesApi = window.IEAReleases;
+    const platforms = release && release.platforms ? release.platforms : {};
+
+    PLATFORM_KEYS.forEach((platform) => {
+      const entry = platforms[platform] || { available: false, url: null, name: null, size: null };
+      const isAvailable = Boolean(entry.available && entry.url);
+      activePlatformUrls[platform] = isAvailable ? entry.url : null;
+
+      document.querySelectorAll(`[data-link="${platform}"]`).forEach((el) => {
+        const isDropdown = el.classList.contains("dropdown-item");
+        el.removeAttribute("aria-busy");
+        el.classList.remove("is-loading");
+
+        if (isAvailable) {
+          el.setAttribute("href", entry.url);
+          el.setAttribute("target", "_blank");
+          el.setAttribute("rel", "noopener noreferrer");
+          el.removeAttribute("aria-disabled");
+          el.removeAttribute("tabindex");
+          el.classList.remove("is-disabled");
+
+          const sizeText = releasesApi ? releasesApi.formatBytes(entry.size) : "";
+          const versionTag = release && release.tagName ? ` ${release.tagName}` : "";
+          el.setAttribute(
+            "title",
+            `Download ${entry.name || platform}${versionTag}${sizeText ? ` (${sizeText})` : ""}`
+          );
+
+          removeBadge(el, isDropdown);
+
+          if (isDropdown) {
+            let meta = el.querySelector(".dropdown-meta");
+            if (!meta) {
+              meta = document.createElement("span");
+              meta.className = "dropdown-meta";
+              el.appendChild(meta);
+            }
+            meta.textContent = PLATFORM_EXT_LABELS[platform];
+          }
+        } else {
+          el.removeAttribute("href");
+          el.removeAttribute("target");
+          el.removeAttribute("rel");
+          el.setAttribute("aria-disabled", "true");
+          el.setAttribute("tabindex", "-1");
+          el.classList.add("is-disabled");
+          el.classList.remove("is-detected-os");
+
+          const unavailableLabel = platform === "ios" ? "Coming soon" : "Unavailable";
+          el.setAttribute(
+            "title",
+            platform === "ios"
+              ? "iOS build is coming soon"
+              : "No published installer is currently available for this platform"
+          );
+
+          if (isDropdown) {
+            const meta = el.querySelector(".dropdown-meta");
+            if (meta) meta.remove();
+          }
+          ensureBadge(el, unavailableLabel, isDropdown);
+        }
+      });
+    });
+
+    highlightDetectedOS();
+  }
+
+  /**
+   * Render subtle, unobtrusive release version & availability status beneath hero buttons.
+   */
+  function renderReleaseStatus(state, payload) {
+    const statusEl = document.getElementById("release-status");
+    if (!statusEl) return;
+
+    statusEl.innerHTML = "";
+    statusEl.className = `release-status is-${state}`;
+
+    const dot = document.createElement("span");
+    dot.className = "release-status-dot";
+    dot.setAttribute("aria-hidden", "true");
+    statusEl.appendChild(dot);
+
+    const text = document.createElement("span");
+    text.className = "release-status-text";
+
+    if (state === "loading") {
+      text.textContent = "Checking latest release…";
+      statusEl.appendChild(text);
+      return;
+    }
+
+    if (state === "ready" && payload) {
+      const releasesApi = window.IEAReleases;
+      const versionLabel = payload.tagName || (payload.version ? `v${payload.version}` : "Latest release");
+      const dateStr = releasesApi ? releasesApi.formatPublishedDate(payload.publishedAt) : "";
+      const availableCount = PLATFORM_KEYS.filter(
+        (k) => payload.platforms && payload.platforms[k] && payload.platforms[k].available
+      ).length;
+
+      if (availableCount === 0) {
+        statusEl.className = "release-status is-error";
+        text.textContent = `Release ${versionLabel} has no downloadable installers yet.`;
+        statusEl.appendChild(text);
+        return;
+      }
+
+      text.textContent = dateStr
+        ? `Latest release ${versionLabel} · Updated ${dateStr}`
+        : `Latest release ${versionLabel}`;
+      statusEl.appendChild(text);
+
+      if (payload.checksumsUrl) {
+        const sep = document.createElement("span");
+        sep.className = "release-status-sep";
+        sep.textContent = "·";
+        sep.setAttribute("aria-hidden", "true");
+        statusEl.appendChild(sep);
+
+        const link = document.createElement("a");
+        link.className = "release-status-link";
+        link.href = payload.checksumsUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "SHA-256";
+        statusEl.appendChild(link);
+      }
+      return;
+    }
+
+    // Error / Unavailable state
+    const err = payload || {};
+    if (err.code === "NOT_FOUND") {
+      text.textContent = "Latest release is currently unavailable on GitHub.";
+    } else if (err.code === "RATE_LIMITED") {
+      text.textContent = "GitHub release check temporarily rate-limited.";
+    } else {
+      text.textContent = "Unable to load latest release right now.";
+    }
+    statusEl.appendChild(text);
+
+    const retryBtn = document.createElement("button");
+    retryBtn.type = "button";
+    retryBtn.className = "release-retry-btn";
+    retryBtn.textContent = "Retry";
+    retryBtn.addEventListener("click", () => {
+      loadLatestRelease({ forceRefresh: true });
+    });
+    statusEl.appendChild(retryBtn);
+  }
+
+  /**
+   * Fetch & hydrate latest GitHub Release with stale-while-revalidate caching.
+   */
+  async function loadLatestRelease(options) {
+    const opts = options || {};
+    const releasesApi = window.IEAReleases;
+    if (!releasesApi) return;
+
+    const cached = !opts.forceRefresh ? releasesApi.readCache() : null;
+
+    if (cached && cached.data) {
+      applyReleaseToUI(cached.data);
+      renderReleaseStatus("ready", cached.data);
+      if (cached.isFresh) {
+        return;
+      }
+    } else {
+      setPlatformsLoading();
+      renderReleaseStatus("loading");
+    }
+
+    try {
+      const fresh = await releasesApi.fetchLatestRelease();
+      applyReleaseToUI(fresh);
+      renderReleaseStatus("ready", fresh);
+    } catch (err) {
+      if (cached && cached.data) {
+        // Keep previously verified cached links usable if revalidation fails transiently
+        return;
+      }
+      applyReleaseToUI(null);
+      renderReleaseStatus("error", err);
+    }
   }
 
   /**
@@ -67,7 +290,11 @@ const LINKS = {
       detected = "macos";
     }
 
-    if (!detected || !LINKS[detected]) {
+    document.querySelectorAll("[data-os]").forEach((el) => {
+      el.classList.remove("is-detected-os");
+    });
+
+    if (!detected || !activePlatformUrls[detected]) {
       return;
     }
 
@@ -239,11 +466,11 @@ const LINKS = {
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    wireLinks();
-    highlightDetectedOS();
+    wireStaticLinks();
     initNavigation();
     initDeviceTabs();
     initAccordion();
     initScrollReveal();
+    loadLatestRelease();
   });
 })();

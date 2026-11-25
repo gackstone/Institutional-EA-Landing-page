@@ -64,11 +64,10 @@
               <li role="none">
                 <a
                   role="menuitem"
-                  class="dropdown-item"
+                  class="dropdown-item is-disabled is-loading"
                   data-link="windows"
-                  href="https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA-Setup.exe"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  aria-disabled="true"
+                  tabindex="-1"
                 >
                   <span>Windows</span>
                   <span class="dropdown-meta">.exe</span>
@@ -77,11 +76,10 @@
               <li role="none">
                 <a
                   role="menuitem"
-                  class="dropdown-item"
+                  class="dropdown-item is-disabled is-loading"
                   data-link="macos"
-                  href="https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.dmg"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  aria-disabled="true"
+                  tabindex="-1"
                 >
                   <span>macOS</span>
                   <span class="dropdown-meta">.dmg</span>
@@ -90,11 +88,10 @@
               <li role="none">
                 <a
                   role="menuitem"
-                  class="dropdown-item"
+                  class="dropdown-item is-disabled is-loading"
                   data-link="android"
-                  href="https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.apk"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  aria-disabled="true"
+                  tabindex="-1"
                 >
                   <span>Android</span>
                   <span class="dropdown-meta">.apk</span>
@@ -181,12 +178,11 @@
           <div class="store-buttons" role="group" aria-label="Download Institutional EA by platform">
             <!-- Windows -->
             <a
-              class="store-btn"
+              class="store-btn is-disabled is-loading"
               data-link="windows"
               data-os="windows"
-              href="https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA-Setup.exe"
-              target="_blank"
-              rel="noopener noreferrer"
+              aria-disabled="true"
+              tabindex="-1"
             >
               <span class="store-btn-icon" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -201,12 +197,11 @@
 
             <!-- macOS -->
             <a
-              class="store-btn"
+              class="store-btn is-disabled is-loading"
               data-link="macos"
               data-os="macos"
-              href="https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.dmg"
-              target="_blank"
-              rel="noopener noreferrer"
+              aria-disabled="true"
+              tabindex="-1"
             >
               <span class="store-btn-icon" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -221,12 +216,11 @@
 
             <!-- Android -->
             <a
-              class="store-btn"
+              class="store-btn is-disabled is-loading"
               data-link="android"
               data-os="android"
-              href="https://github.com/gackstone/Institutional-EA/releases/latest/download/InstitutionalEA.apk"
-              target="_blank"
-              rel="noopener noreferrer"
+              aria-disabled="true"
+              tabindex="-1"
             >
               <span class="store-btn-icon" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -239,7 +233,7 @@
               </span>
             </a>
 
-            <!-- iOS (disabled until URL is provided in LINKS.ios) -->
+            <!-- iOS (enabled dynamically only when a signed .ipa is published in GitHub Releases) -->
             <a
               class="store-btn is-disabled"
               data-link="ios"
@@ -258,6 +252,10 @@
               </span>
               <span class="store-badge-soon">Coming soon</span>
             </a>
+          </div>
+          <div class="release-status is-loading" id="release-status" aria-live="polite">
+            <span class="release-status-dot" aria-hidden="true"></span>
+            <span class="release-status-text">Checking latest release…</span>
           </div>
         </div>
 
@@ -721,6 +719,7 @@
     </div>
   </footer>
 
+  <script src="js/releases.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

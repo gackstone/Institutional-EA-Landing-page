@@ -1,0 +1,167 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
+
+const require = createRequire(import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const LANDING_DIR = path.resolve(__dirname, "..");
+
+const releases = require(path.join(LANDING_DIR, "js", "releases.js"));
+
+class MemoryStorage {
+  constructor() {
+    this.map = new Map();
+  }
+  getItem(k) {
+    return this.map.has(k) ? this.map.get(k) : null;
+  }
+  setItem(k, v) {
+    this.map.set(k, String(v));
+  }
+}
+
+test("resolveReleaseAssets extracts verified browser_download_url for all platforms and ignores checksums/blockmaps", () => {
+  const payload = {
+    tag_name: "v1.3.1",
+    published_at: "2026-11-25T20:00:00Z",
+    html_url: "https://github.com/gackstone/Institutional-EA/releases/tag/v1.3.1",
+    assets: [
+      {
+        name: "InstitutionalEA-Setup.exe.sha256",
+        size: 92,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.1/InstitutionalEA-Setup.exe.sha256",
+      },
+      {
+        name: "InstitutionalEA-Setup-1.3.1.exe.blockmap",
+        size: 204800,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.1/InstitutionalEA-Setup-1.3.1.exe.blockmap",
+      },
+      {
+        name: "InstitutionalEA-Setup.exe",
+        size: 204805028,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.1/InstitutionalEA-Setup.exe",
+      },
+      {
+        name: "InstitutionalEA.dmg",
+        size: 165000000,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.1/InstitutionalEA.dmg",
+      },
+      {
+        name: "InstitutionalEA.apk",
+        size: 48000000,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.1/InstitutionalEA.apk",
+      },
+      {
+        name: "InstitutionalEA.aab",
+        size: 39000000,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.1/InstitutionalEA.aab",
+      },
+      {
+        name: "SHA256SUMS.txt",
+        size: 420,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.1/SHA256SUMS.txt",
+      },
+    ],
+  };
+
+  const resolved = releases.resolveReleaseAssets(payload);
+  assert.equal(resolved.tagName, "v1.3.1");
+  assert.equal(resolved.version, "1.3.1");
+  assert.equal(resolved.platforms.windows.available, true);
+  assert.equal(resolved.platforms.windows.name, "InstitutionalEA-Setup.exe");
+  assert.equal(resolved.platforms.macos.available, true);
+  assert.equal(resolved.platforms.macos.name, "InstitutionalEA.dmg");
+  assert.equal(resolved.platforms.android.available, true);
+  assert.equal(resolved.platforms.android.name, "InstitutionalEA.apk");
+  assert.equal(resolved.platforms.android.aabName, "InstitutionalEA.aab");
+  assert.equal(resolved.platforms.ios.available, false);
+  assert.equal(resolved.platforms.ios.url, null);
+  assert.equal(
+    resolved.checksumsUrl,
+    "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.1/SHA256SUMS.txt"
+  );
+});
+
+test("resolveReleaseAssets enables iOS only when a verified .ipa asset is present", () => {
+  const payload = {
+    tag_name: "v1.4.0",
+    assets: [
+      {
+        name: "InstitutionalEA-1.4.0.ipa",
+        size: 52000000,
+        browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.4.0/InstitutionalEA-1.4.0.ipa",
+      },
+    ],
+  };
+
+  const resolved = releases.resolveReleaseAssets(payload);
+  assert.equal(resolved.platforms.ios.available, true);
+  assert.equal(resolved.platforms.ios.name, "InstitutionalEA-1.4.0.ipa");
+  assert.equal(resolved.platforms.windows.available, false);
+  assert.equal(resolved.platforms.macos.available, false);
+  assert.equal(resolved.platforms.android.available, false);
+});
+
+test("fetchLatestRelease retries transient 503 errors, succeeds, and writes cache", async () => {
+  const store = new MemoryStorage();
+  let calls = 0;
+  const mockFetch = async () => {
+    calls++;
+    if (calls === 1) {
+      return { ok: false, status: 503 };
+    }
+    return {
+      ok: true,
+      status: 200,
+      json: async () => ({
+        tag_name: "v1.3.2",
+        assets: [
+          {
+            name: "InstitutionalEA-Setup.exe",
+            size: 1000,
+            browser_download_url: "https://github.com/gackstone/Institutional-EA/releases/download/v1.3.2/InstitutionalEA-Setup.exe",
+          },
+        ],
+      }),
+    };
+  };
+
+  const data = await releases.fetchLatestRelease({
+    fetchImpl: mockFetch,
+    storage: store,
+    retryBaseDelayMs: 1,
+  });
+
+  assert.equal(calls, 2);
+  assert.equal(data.tagName, "v1.3.2");
+  const cached = releases.readCache(store);
+  assert.equal(cached.isFresh, true);
+  assert.equal(cached.data.tagName, "v1.3.2");
+});
+
+test("fetchLatestRelease fails immediately without retrying on HTTP 404", async () => {
+  let calls = 0;
+  const mockFetch = async () => {
+    calls++;
+    return { ok: false, status: 404 };
+  };
+
+  await assert.rejects(
+    () => releases.fetchLatestRelease({ fetchImpl: mockFetch, retryBaseDelayMs: 1 }),
+    (err) => err.code === "NOT_FOUND" && err.status === 404
+  );
+  assert.equal(calls, 1);
+});
+
+test("landing/index.html and landing/js/main.js contain no hardcoded releases/latest/download URLs", () => {
+  const html = fs.readFileSync(path.join(LANDING_DIR, "index.html"), "utf8");
+  const mainJs = fs.readFileSync(path.join(LANDING_DIR, "js", "main.js"), "utf8");
+  assert.equal(html.includes("releases/latest/download/"), false);
+  assert.equal(mainJs.includes("releases/latest/download/"), false);
+  assert.match(html, /id="release-status"/);
+  assert.match(html, /js\/releases\.js/);
+});
