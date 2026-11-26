@@ -101,6 +101,9 @@ const PLATFORM_EXT_LABELS = {
 
         if (isAvailable) {
           el.setAttribute("href", entry.url);
+          if (platform === "android") {
+            el.setAttribute("download", entry.name || "InstitutionalEA.apk");
+          }
           el.setAttribute("target", "_blank");
           el.setAttribute("rel", "noopener noreferrer");
           el.removeAttribute("aria-disabled");
@@ -152,6 +155,75 @@ const PLATFORM_EXT_LABELS = {
     });
 
     highlightDetectedOS();
+    renderAndroidMetaBar(release);
+  }
+
+  /**
+   * Render compact Android release metadata (version, size, minSdk, date, copyable SHA-256,
+   * and upgrade note) from centralized ANDROID_RELEASE_META + live GitHub release payload.
+   */
+  function renderAndroidMetaBar(release) {
+    const bar = document.getElementById("android-meta-bar");
+    const releasesApi = window.IEAReleases;
+    const meta = releasesApi && releasesApi.ANDROID_RELEASE_META;
+    if (!bar || !meta) return;
+
+    const liveAndroid = release && release.platforms && release.platforms.android;
+    const versionTag =
+      release && release.tagName ? release.tagName : meta.tagName;
+    const sizeText =
+      liveAndroid && liveAndroid.size && releasesApi
+        ? releasesApi.formatBytes(liveAndroid.size)
+        : meta.sizeLabel;
+    const dateText =
+      release && release.publishedAt && releasesApi
+        ? releasesApi.formatPublishedDate(release.publishedAt) || meta.updatedDate
+        : meta.updatedDate;
+    const shortHash = `${meta.sha256.slice(0, 10)}…${meta.sha256.slice(-8)}`;
+
+    bar.innerHTML = "";
+
+    const line = document.createElement("div");
+    line.className = "android-meta-line";
+    line.textContent = `Android ${versionTag} · ${sizeText} · ${meta.minSdk} · Updated ${dateText}`;
+    bar.appendChild(line);
+
+    const verifyRow = document.createElement("div");
+    verifyRow.className = "android-verify-row";
+
+    const verifyBtn = document.createElement("button");
+    verifyBtn.type = "button";
+    verifyBtn.className = "android-sha-btn";
+    verifyBtn.title = `Click to copy full SHA-256: ${meta.sha256}`;
+    verifyBtn.textContent = `Verify download (SHA-256): ${shortHash}`;
+    verifyBtn.addEventListener("click", () => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(meta.sha256).then(() => {
+          verifyBtn.textContent = `Copied SHA-256: ${shortHash}`;
+          setTimeout(() => {
+            verifyBtn.textContent = `Verify download (SHA-256): ${shortHash}`;
+          }, 2200);
+        }).catch(() => {});
+      }
+    });
+    verifyRow.appendChild(verifyBtn);
+
+    const sumsLink = document.createElement("a");
+    sumsLink.className = "android-sums-link";
+    sumsLink.href =
+      (release && release.checksumsUrl) ||
+      (releasesApi && releasesApi.DOWNLOAD_URLS && releasesApi.DOWNLOAD_URLS.checksums) ||
+      "#";
+    sumsLink.target = "_blank";
+    sumsLink.rel = "noopener noreferrer";
+    sumsLink.textContent = "SHA256SUMS.txt";
+    verifyRow.appendChild(sumsLink);
+    bar.appendChild(verifyRow);
+
+    const note = document.createElement("p");
+    note.className = "android-upgrade-note";
+    note.textContent = meta.upgradeNote;
+    bar.appendChild(note);
   }
 
   /**
