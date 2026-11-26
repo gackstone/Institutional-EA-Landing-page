@@ -1292,3 +1292,55 @@ button {
     transform: translate(-18px, -18px) rotate(7deg);
   }
 }
+
+
+/* Android release metadata & copyable SHA-256 verification strip */
+.android-meta-bar {
+  margin-top: 14px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-muted, #64748b);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.android-meta-line {
+  font-weight: 600;
+}
+
+.android-verify-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.android-sha-btn {
+  background: transparent;
+  border: 1px solid rgba(100, 116, 139, 0.35);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.android-sha-btn:hover {
+  border-color: currentColor;
+}
+
+.android-sums-link {
+  font-size: 0.74rem;
+  text-decoration: underline;
+  color: inherit;
+}
+
+.android-upgrade-note {
+  margin: 0;
+  font-size: 0.73rem;
+  opacity: 0.85;
+  max-width: 540px;
+}
