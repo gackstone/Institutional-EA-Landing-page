@@ -1551,3 +1551,48 @@ button {
     color: #86efac;
   }
 }
+
+/* ==========================================================================
+   Realistic Device Mockup Polish & Motion
+   ========================================================================== */
+.hero-mockup-img {
+  aspect-ratio: 600 / 420;
+}
+
+.how-phone-img,
+.tilted-phone,
+.banner-phone {
+  aspect-ratio: 300 / 600;
+}
+
+.tilted-back {
+  aspect-ratio: 600 / 420;
+}
+
+.tilted-front {
+  aspect-ratio: 480 / 340;
+}
+
+@keyframes iea-float-subtle {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.floating-pill {
+  animation: iea-float-subtle 5.5s ease-in-out infinite;
+}
+
+.pill-coral {
+  animation-delay: 1.6s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-pill {
+    animation: none;
+  }
+}

@@ -1,68 +1,110 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 560" width="280" height="560" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 600" width="300" height="600" fill="none">
   <defs>
-    <linearGradient id="phoneBg2" x1="0" y1="0" x2="280" y2="560" gradientUnits="userSpaceOnUse">
+    <filter id="phoneShadowAlt" x="-16%" y="-8%" width="132%" height="120%">
+      <feDropShadow dx="8" dy="18" stdDeviation="14" flood-color="#0F172A" flood-opacity="0.24"/>
+    </filter>
+    <linearGradient id="titaniumFrameAlt" x1="16" y1="12" x2="284" y2="588" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#D7DCE4"/>
+      <stop offset="28%" stop-color="#8B95A3"/>
+      <stop offset="55%" stop-color="#C6CDD7"/>
+      <stop offset="82%" stop-color="#6F7987"/>
+      <stop offset="100%" stop-color="#B7C0CC"/>
+    </linearGradient>
+    <linearGradient id="phoneBg2" x1="22" y1="22" x2="278" y2="578" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#171C25"/>
-      <stop offset="100%" stop-color="#0E1218"/>
+      <stop offset="100%" stop-color="#0D1117"/>
+    </linearGradient>
+    <linearGradient id="phoneGlareAlt" x1="22" y1="22" x2="190" y2="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.1"/>
+      <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
     </linearGradient>
   </defs>
 
-  <rect x="8" y="8" width="264" height="544" rx="40" fill="#1F242D" stroke="#363E4D" stroke-width="2.5"/>
-  <rect x="18" y="18" width="244" height="524" rx="32" fill="url(#phoneBg2)"/>
-  <rect x="98" y="28" width="84" height="18" rx="9" fill="#090B10"/>
+  <g filter="url(#phoneShadowAlt)">
+    <!-- Side Hardware Buttons -->
+    <rect x="9" y="102" width="4" height="22" rx="2" fill="#8C96A4"/>
+    <rect x="9" y="142" width="4" height="40" rx="2" fill="#9AA4B2"/>
+    <rect x="9" y="192" width="4" height="40" rx="2" fill="#9AA4B2"/>
+    <rect x="287" y="160" width="4" height="58" rx="2" fill="#8C96A4"/>
 
-  <!-- Header -->
-  <text x="36" y="79" fill="#F1F5F9" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Live Chart View</text>
-  <rect x="190" y="65" width="56" height="20" rx="10" fill="#163524"/>
-  <text x="218" y="78.5" text-anchor="middle" fill="#6EE7B7" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="700">SYNCED</text>
+    <!-- Titanium Metallic Outer Body -->
+    <rect x="12" y="12" width="276" height="576" rx="46" fill="url(#titaniumFrameAlt)"/>
+    <rect x="17" y="17" width="266" height="566" rx="42" fill="#090B0F"/>
+    <rect x="17.5" y="17.5" width="265" height="565" rx="41.5" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="1"/>
 
-  <!-- Full Chart Canvas -->
-  <rect x="34" y="100" width="212" height="278" rx="16" fill="#11161F" stroke="#253041"/>
-  <line x1="46" y1="150" x2="234" y2="150" stroke="#1E2736" stroke-dasharray="3 3"/>
-  <line x1="46" y1="206" x2="234" y2="206" stroke="#1E2736" stroke-dasharray="3 3"/>
-  <line x1="46" y1="262" x2="234" y2="262" stroke="#1E2736" stroke-dasharray="3 3"/>
-  <line x1="46" y1="318" x2="234" y2="318" stroke="#1E2736" stroke-dasharray="3 3"/>
+    <!-- Active Screen -->
+    <rect x="24" y="24" width="252" height="552" rx="35" fill="url(#phoneBg2)"/>
 
-  <!-- Bot Drawing Zones -->
-  <rect x="52" y="168" width="176" height="26" rx="4" fill="#1FA35A" fill-opacity="0.14" stroke="#1FA35A" stroke-opacity="0.5" stroke-dasharray="4 3"/>
-  <rect x="86" y="274" width="142" height="24" rx="4" fill="#EF6461" fill-opacity="0.12" stroke="#EF6461" stroke-opacity="0.45" stroke-dasharray="4 3"/>
+    <!-- Status Bar + Dynamic Island -->
+    <text x="45" y="45" fill="#E2E8F0" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700">9:41</text>
+    <rect x="108" y="32" width="84" height="20" rx="10" fill="#050608" stroke="#1E2530" stroke-width="0.7"/>
+    <circle cx="174" cy="42" r="4" fill="#131B26"/>
+    <circle cx="174" cy="42" r="1.8" fill="#2563EB" fill-opacity="0.5"/>
+    <rect x="224" y="39" width="2.5" height="5" rx="1" fill="#CBD5E1"/>
+    <rect x="228" y="37" width="2.5" height="7" rx="1" fill="#CBD5E1"/>
+    <rect x="232" y="35" width="2.5" height="9" rx="1" fill="#CBD5E1"/>
+    <rect x="240" y="36" width="15" height="8" rx="2" stroke="#CBD5E1" stroke-width="1"/>
+    <rect x="242" y="38" width="10" height="4" rx="1" fill="#CBD5E1"/>
 
-  <!-- Candlesticks -->
-  <g stroke-width="1.6" stroke-linecap="round">
-    <line x1="64" y1="286" x2="64" y2="334" stroke="#22B866"/>
-    <rect x="59" y="298" width="10" height="24" rx="2" fill="#22B866"/>
+    <!-- Header -->
+    <text x="42" y="88" fill="#F1F5F9" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Live Chart View</text>
+    <rect x="198" y="74" width="60" height="20" rx="10" fill="#163524" stroke="#1FA35A" stroke-opacity="0.4"/>
+    <text x="228" y="87" text-anchor="middle" fill="#6EE7B7" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="700">SYNCED</text>
 
-    <line x1="88" y1="262" x2="88" y2="312" stroke="#22B866"/>
-    <rect x="83" y="272" width="10" height="26" rx="2" fill="#22B866"/>
+    <!-- Full Chart Canvas -->
+    <rect x="40" y="110" width="220" height="284" rx="16" fill="#11161F" stroke="#253042"/>
+    <line x1="52" y1="162" x2="248" y2="162" stroke="#1E2736" stroke-dasharray="3 3"/>
+    <line x1="52" y1="218" x2="248" y2="218" stroke="#1E2736" stroke-dasharray="3 3"/>
+    <line x1="52" y1="274" x2="248" y2="274" stroke="#1E2736" stroke-dasharray="3 3"/>
+    <line x1="52" y1="330" x2="248" y2="330" stroke="#1E2736" stroke-dasharray="3 3"/>
 
-    <line x1="112" y1="244" x2="112" y2="290" stroke="#EF6461"/>
-    <rect x="107" y="254" width="10" height="22" rx="2" fill="#EF6461"/>
+    <!-- Bot Drawing Zones -->
+    <rect x="58" y="178" width="182" height="26" rx="4" fill="#1FA35A" fill-opacity="0.15" stroke="#1FA35A" stroke-opacity="0.5" stroke-dasharray="4 3"/>
+    <rect x="92" y="286" width="148" height="24" rx="4" fill="#EF6461" fill-opacity="0.13" stroke="#EF6461" stroke-opacity="0.45" stroke-dasharray="4 3"/>
 
-    <line x1="136" y1="214" x2="136" y2="266" stroke="#22B866"/>
-    <rect x="131" y="224" width="10" height="28" rx="2" fill="#22B866"/>
+    <!-- Candlesticks -->
+    <g stroke-width="1.6" stroke-linecap="round">
+      <line x1="70" y1="298" x2="70" y2="346" stroke="#22B866"/>
+      <rect x="65" y="310" width="10" height="24" rx="2" fill="#22B866"/>
 
-    <line x1="160" y1="192" x2="160" y2="240" stroke="#22B866"/>
-    <rect x="155" y="202" width="10" height="24" rx="2" fill="#22B866"/>
+      <line x1="95" y1="274" x2="95" y2="324" stroke="#22B866"/>
+      <rect x="90" y="284" width="10" height="26" rx="2" fill="#22B866"/>
 
-    <line x1="184" y1="178" x2="184" y2="222" stroke="#EF6461"/>
-    <rect x="179" y="188" width="10" height="20" rx="2" fill="#EF6461"/>
+      <line x1="120" y1="256" x2="120" y2="302" stroke="#EF6461"/>
+      <rect x="115" y="266" width="10" height="22" rx="2" fill="#EF6461"/>
 
-    <line x1="208" y1="146" x2="208" y2="196" stroke="#22B866"/>
-    <rect x="203" y="156" width="10" height="26" rx="2" fill="#22B866"/>
+      <line x1="145" y1="226" x2="145" y2="278" stroke="#22B866"/>
+      <rect x="140" y="236" width="10" height="28" rx="2" fill="#22B866"/>
+
+      <line x1="170" y1="204" x2="170" y2="252" stroke="#22B866"/>
+      <rect x="165" y="214" width="10" height="24" rx="2" fill="#22B866"/>
+
+      <line x1="195" y1="190" x2="195" y2="234" stroke="#EF6461"/>
+      <rect x="190" y="200" width="10" height="20" rx="2" fill="#EF6461"/>
+
+      <line x1="220" y1="158" x2="220" y2="208" stroke="#22B866"/>
+      <rect x="215" y="168" width="10" height="26" rx="2" fill="#22B866"/>
+    </g>
+
+    <!-- Neutral Summary Tiles -->
+    <rect x="40" y="408" width="104" height="58" rx="12" fill="#171E2A" stroke="#253042"/>
+    <rect x="52" y="422" width="46" height="5.5" rx="2.75" fill="#64748B"/>
+    <rect x="52" y="436" width="70" height="10" rx="5" fill="#1FA35A" fill-opacity="0.35"/>
+
+    <rect x="156" y="408" width="104" height="58" rx="12" fill="#171E2A" stroke="#253042"/>
+    <rect x="168" y="422" width="54" height="5.5" rx="2.75" fill="#64748B"/>
+    <rect x="168" y="436" width="64" height="10" rx="5" fill="#38BDF8" fill-opacity="0.3"/>
+
+    <!-- Bottom Note Pill -->
+    <rect x="40" y="480" width="220" height="36" rx="10" fill="#171E2A" stroke="#253042"/>
+    <circle cx="58" cy="498" r="4" fill="#1FA35A"/>
+    <rect x="70" y="495" width="128" height="6" rx="3" fill="#94A3B8"/>
+
+    <!-- Home Indicator -->
+    <rect x="110" y="556" width="80" height="4.5" rx="2.25" fill="#475569"/>
+
+    <!-- Glass Screen Glare -->
+    <path d="M24 58 C24 39 39 24 58 24 H182 L70 320 H24 V58 Z" fill="url(#phoneGlareAlt)"/>
   </g>
-
-  <!-- Summary Tiles -->
-  <rect x="34" y="394" width="100" height="58" rx="12" fill="#171E29" stroke="#253041"/>
-  <rect x="46" y="408" width="44" height="5.5" rx="2.75" fill="#64748B"/>
-  <rect x="46" y="422" width="68" height="10" rx="5" fill="#1FA35A" fill-opacity="0.35"/>
-
-  <rect x="146" y="394" width="100" height="58" rx="12" fill="#171E29" stroke="#253041"/>
-  <rect x="158" y="408" width="52" height="5.5" rx="2.75" fill="#64748B"/>
-  <rect x="158" y="422" width="62" height="10" rx="5" fill="#38BDF8" fill-opacity="0.3"/>
-
-  <!-- Bottom Note Pill -->
-  <rect x="34" y="466" width="212" height="36" rx="10" fill="#171E29" stroke="#253041"/>
-  <circle cx="52" cy="484" r="4" fill="#1FA35A"/>
-  <rect x="64" y="481" width="124" height="6" rx="3" fill="#94A3B8"/>
-
-  <rect x="102" y="524" width="76" height="4.5" rx="2.25" fill="#3B4557"/>
 </svg>
