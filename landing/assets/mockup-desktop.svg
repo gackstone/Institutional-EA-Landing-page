@@ -1,137 +1,230 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 390" width="560" height="390" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="600" height="420" fill="none">
   <defs>
-    <linearGradient id="screenBg" x1="0" y1="0" x2="560" y2="390" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#14181F"/>
-      <stop offset="100%" stop-color="#0E1117"/>
+    <!-- Studio Shadow Filters -->
+    <filter id="laptopShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#0F172A" flood-opacity="0.22"/>
+    </filter>
+    <filter id="panelFloatShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="-6" dy="14" stdDeviation="12" flood-color="#081235" flood-opacity="0.32"/>
+    </filter>
+
+    <!-- Metallic Aluminum Gradients -->
+    <linearGradient id="lidOuter" x1="65" y1="14" x2="535" y2="336" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E5E9F0"/>
+      <stop offset="35%" stop-color="#C6CDD7"/>
+      <stop offset="70%" stop-color="#DCE1E8"/>
+      <stop offset="100%" stop-color="#A6B0BE"/>
     </linearGradient>
-    <linearGradient id="chartGlow" x1="280" y1="120" x2="280" y2="290" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#1FA35A" stop-opacity="0.28"/>
+    <linearGradient id="baseTop" x1="300" y1="334" x2="300" y2="388" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#DCE1E8"/>
+      <stop offset="65%" stop-color="#C5CCD6"/>
+      <stop offset="100%" stop-color="#AEB6C2"/>
+    </linearGradient>
+    <linearGradient id="baseLip" x1="20" y1="388" x2="580" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#9CA5B3"/>
+      <stop offset="15%" stop-color="#D3D9E2"/>
+      <stop offset="50%" stop-color="#E2E7EE"/>
+      <stop offset="85%" stop-color="#C3CAD4"/>
+      <stop offset="100%" stop-color="#8F98A6"/>
+    </linearGradient>
+    <linearGradient id="hingeGrad" x1="120" y1="332" x2="480" y2="338" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1E232B"/>
+      <stop offset="50%" stop-color="#353D4B"/>
+      <stop offset="100%" stop-color="#1E232B"/>
+    </linearGradient>
+
+    <!-- Screen & Chart Gradients -->
+    <linearGradient id="screenBg" x1="76" y1="24" x2="524" y2="326" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#131820"/>
+      <stop offset="100%" stop-color="#0B0E14"/>
+    </linearGradient>
+    <linearGradient id="chartGlow" x1="340" y1="120" x2="340" y2="268" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1FA35A" stop-opacity="0.32"/>
       <stop offset="100%" stop-color="#1FA35A" stop-opacity="0"/>
     </linearGradient>
-    <linearGradient id="bezel" x1="0" y1="0" x2="0" y2="390" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#2A2F38"/>
-      <stop offset="100%" stop-color="#181C23"/>
+    <linearGradient id="screenGlare" x1="76" y1="24" x2="380" y2="326" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.11"/>
+      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="groundShadow" x1="300" y1="392" x2="300" y2="416" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0F172A" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0"/>
     </linearGradient>
   </defs>
 
-  <!-- Outer Device Frame -->
-  <rect x="8" y="8" width="544" height="354" rx="20" fill="url(#bezel)" stroke="#383F4B" stroke-width="2"/>
-  <rect x="18" y="18" width="524" height="334" rx="13" fill="url(#screenBg)"/>
-  <!-- Laptop Base Accent -->
-  <rect x="2" y="362" width="556" height="14" rx="7" fill="#232830"/>
-  <rect x="234" y="362" width="92" height="5" rx="2.5" fill="#3C4350"/>
+  <!-- Soft Ground Contact Shadow -->
+  <ellipse cx="300" cy="402" rx="268" ry="12" fill="url(#groundShadow)"/>
 
-  <!-- Top Bar -->
-  <rect x="18" y="18" width="524" height="40" rx="13" fill="#181D26"/>
-  <rect x="18" y="45" width="524" height="13" fill="#181D26"/>
-  <line x1="18" y1="58" x2="542" y2="58" stroke="#252C38" stroke-width="1"/>
-  <!-- Window Dots -->
-  <circle cx="38" cy="38" r="4.5" fill="#EF6461"/>
-  <circle cx="53" cy="38" r="4.5" fill="#F2B84B"/>
-  <circle cx="68" cy="38" r="4.5" fill="#1FA35A"/>
-  <!-- Title -->
-  <rect x="92" y="32" width="12" height="12" rx="3" fill="#1FA35A"/>
-  <path d="M95 40.5L97.5 38L99.2 39.4L101.5 35.8" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="111" y="42" fill="#E6ECF5" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600">Institutional EA Companion</text>
-  <!-- Status Pill -->
-  <rect x="438" y="27" width="90" height="22" rx="11" fill="#163524" stroke="#1FA35A" stroke-opacity="0.45"/>
-  <circle cx="451" cy="38" r="3.5" fill="#26C66F"/>
-  <text x="460" y="41.5" fill="#9AE6B4" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">MT5 Linked</text>
+  <!-- Laptop Lid & Display -->
+  <g filter="url(#laptopShadow)">
+    <!-- Metallic Aluminum Outer Lid -->
+    <rect x="64" y="14" width="472" height="322" rx="18" fill="url(#lidOuter)" stroke="#B0B8C4" stroke-width="1.2"/>
+    <!-- Dark Glass Bezel -->
+    <rect x="69" y="19" width="462" height="312" rx="14" fill="#0D1016"/>
+    <!-- Subtle Inner Bezel Highlight -->
+    <rect x="69.5" y="19.5" width="461" height="311" rx="13.5" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="1"/>
+    <!-- Webcam Dot -->
+    <circle cx="300" cy="26.5" r="2.5" fill="#1D2430"/>
+    <circle cx="300" cy="26.5" r="1" fill="#3B82F6" fill-opacity="0.55"/>
 
-  <!-- Left Sidebar -->
-  <rect x="18" y="58" width="128" height="294" fill="#12161E"/>
-  <line x1="146" y1="58" x2="146" y2="352" stroke="#252C38" stroke-width="1"/>
-  <!-- Sidebar Active Item -->
-  <rect x="28" y="72" width="108" height="30" rx="8" fill="#1B2A22" stroke="#1FA35A" stroke-opacity="0.35"/>
-  <rect x="38" y="82" width="10" height="10" rx="2.5" fill="#1FA35A"/>
-  <text x="55" y="90.5" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600">Dashboard</text>
-  <!-- Sidebar Secondary Items -->
-  <rect x="38" y="114" width="10" height="10" rx="2.5" fill="#3B4557"/>
-  <rect x="55" y="116" width="56" height="6" rx="3" fill="#3B4557"/>
-  <rect x="38" y="140" width="10" height="10" rx="2.5" fill="#3B4557"/>
-  <rect x="55" y="142" width="66" height="6" rx="3" fill="#3B4557"/>
-  <rect x="38" y="166" width="10" height="10" rx="2.5" fill="#3B4557"/>
-  <rect x="55" y="168" width="48" height="6" rx="3" fill="#3B4557"/>
+    <!-- Active Screen Area -->
+    <rect x="78" y="33" width="444" height="288" rx="8" fill="url(#screenBg)"/>
 
-  <!-- Bot Control Card in Sidebar -->
-  <rect x="28" y="218" width="108" height="118" rx="10" fill="#171C26" stroke="#252C38"/>
-  <text x="38" y="237" fill="#8C99AE" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" letter-spacing="0.5">BOT CONTROLS</text>
-  <rect x="38" y="248" width="88" height="22" rx="6" fill="#1FA35A"/>
-  <text x="82" y="262.5" text-anchor="middle" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700">Start</text>
-  <rect x="38" y="276" width="88" height="22" rx="6" fill="#232B38"/>
-  <text x="82" y="290.5" text-anchor="middle" fill="#CBD5E1" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Pause</text>
-  <rect x="38" y="304" width="88" height="22" rx="6" fill="#2A1F24" stroke="#EF6461" stroke-opacity="0.4"/>
-  <text x="82" y="318.5" text-anchor="middle" fill="#FCA5A5" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Stop</text>
+    <!-- App Top Bar -->
+    <rect x="78" y="33" width="444" height="34" rx="8" fill="#171D27"/>
+    <rect x="78" y="57" width="444" height="10" fill="#171D27"/>
+    <line x1="78" y1="67" x2="522" y2="67" stroke="#232B38" stroke-width="1"/>
+    <!-- Window Dots -->
+    <circle cx="95" cy="50" r="3.8" fill="#EF6461"/>
+    <circle cx="108" cy="50" r="3.8" fill="#F2B84B"/>
+    <circle cx="121" cy="50" r="3.8" fill="#1FA35A"/>
+    <!-- Brand Tile + Title -->
+    <rect x="139" y="42" width="16" height="16" rx="4.5" fill="#1FA35A"/>
+    <path d="M143 52.5L146 49.5L148 51.2L151.5 46.8" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="162" y="53.5" fill="#E6ECF5" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600">Institutional EA Companion</text>
+    <!-- Bot Connected Status Pill -->
+    <rect x="424" y="40" width="86" height="20" rx="10" fill="#153424" stroke="#1FA35A" stroke-opacity="0.5"/>
+    <circle cx="436" cy="50" r="3" fill="#26C66F"/>
+    <text x="444" y="53" fill="#9AE6B4" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600">MT5 Linked</text>
 
-  <!-- Main Chart Area -->
-  <rect x="160" y="72" width="368" height="218" rx="10" fill="#12161E" stroke="#252C38"/>
-  <!-- Chart Header -->
-  <text x="174" y="92" fill="#E6ECF5" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600">Interactive Chart</text>
-  <rect x="282" y="81" width="66" height="16" rx="8" fill="#1E2532"/>
-  <text x="315" y="92" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600">Bot Drawings</text>
-  <rect x="462" y="81" width="54" height="16" rx="8" fill="#163524"/>
-  <text x="489" y="92" text-anchor="middle" fill="#6EE7B7" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600">Live Sync</text>
+    <!-- Left Sidebar -->
+    <rect x="78" y="67" width="112" height="254" fill="#11161E"/>
+    <line x1="190" y1="67" x2="190" y2="321" stroke="#222A36" stroke-width="1"/>
+    <!-- Active Nav Item -->
+    <rect x="86" y="78" width="96" height="26" rx="7" fill="#192A21" stroke="#1FA35A" stroke-opacity="0.4"/>
+    <rect x="94" y="86.5" width="9" height="9" rx="2.5" fill="#1FA35A"/>
+    <text x="109" y="94" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600">Dashboard</text>
+    <!-- Neutral Placeholder Nav Items -->
+    <rect x="94" y="114" width="9" height="9" rx="2.5" fill="#354052"/>
+    <rect x="109" y="116" width="48" height="5" rx="2.5" fill="#354052"/>
+    <rect x="94" y="135" width="9" height="9" rx="2.5" fill="#354052"/>
+    <rect x="109" y="137" width="56" height="5" rx="2.5" fill="#354052"/>
+    <rect x="94" y="156" width="9" height="9" rx="2.5" fill="#354052"/>
+    <rect x="109" y="158" width="42" height="5" rx="2.5" fill="#354052"/>
 
-  <!-- Subtle Grid Lines -->
-  <line x1="174" y1="126" x2="514" y2="126" stroke="#1E2532" stroke-width="1" stroke-dasharray="3 3"/>
-  <line x1="174" y1="168" x2="514" y2="168" stroke="#1E2532" stroke-width="1" stroke-dasharray="3 3"/>
-  <line x1="174" y1="210" x2="514" y2="210" stroke="#1E2532" stroke-width="1" stroke-dasharray="3 3"/>
-  <line x1="174" y1="252" x2="514" y2="252" stroke="#1E2532" stroke-width="1" stroke-dasharray="3 3"/>
+    <!-- Bot Controls Card -->
+    <rect x="86" y="198" width="96" height="110" rx="9" fill="#161C26" stroke="#232C3A"/>
+    <text x="95" y="214" fill="#8C99AE" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="700" letter-spacing="0.5">BOT CONTROLS</text>
+    <rect x="95" y="224" width="78" height="20" rx="5.5" fill="#1FA35A"/>
+    <text x="134" y="237" text-anchor="middle" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="700">Start</text>
+    <rect x="95" y="250" width="78" height="20" rx="5.5" fill="#232B38"/>
+    <text x="134" y="263" text-anchor="middle" fill="#CBD5E1" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600">Pause</text>
+    <rect x="95" y="276" width="78" height="20" rx="5.5" fill="#2A1E24" stroke="#EF6461" stroke-opacity="0.45"/>
+    <text x="134" y="289" text-anchor="middle" fill="#FCA5A5" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600">Stop</text>
 
-  <!-- Bot Drawing Structure Zones -->
-  <rect x="206" y="138" width="128" height="26" rx="4" fill="#1FA35A" fill-opacity="0.14" stroke="#1FA35A" stroke-opacity="0.45" stroke-dasharray="4 3"/>
-  <rect x="356" y="186" width="144" height="24" rx="4" fill="#EF6461" fill-opacity="0.12" stroke="#EF6461" stroke-opacity="0.45" stroke-dasharray="4 3"/>
+    <!-- Main Interactive Chart Card -->
+    <rect x="202" y="78" width="308" height="188" rx="9" fill="#11161E" stroke="#232C3A"/>
+    <text x="214" y="96" fill="#E6ECF5" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600">Interactive Chart</text>
+    <rect x="306" y="86" width="60" height="15" rx="7.5" fill="#1D2532"/>
+    <text x="336" y="96" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="7.8" font-weight="600">Bot Drawings</text>
+    <rect x="448" y="86" width="50" height="15" rx="7.5" fill="#153424"/>
+    <text x="473" y="96" text-anchor="middle" fill="#6EE7B7" font-family="system-ui, -apple-system, sans-serif" font-size="7.8" font-weight="600">Live Sync</text>
 
-  <!-- Area Glow + Trend Line -->
-  <path d="M180 242 L212 224 L244 231 L276 196 L308 205 L340 164 L372 176 L404 146 L436 154 L468 128 L504 138 L504 274 L180 274 Z" fill="url(#chartGlow)"/>
-  <path d="M180 242 L212 224 L244 231 L276 196 L308 205 L340 164 L372 176 L404 146 L436 154 L468 128 L504 138" stroke="#22B866" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Chart Grid -->
+    <line x1="214" y1="126" x2="498" y2="126" stroke="#1C2330" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="214" y1="162" x2="498" y2="162" stroke="#1C2330" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="214" y1="198" x2="498" y2="198" stroke="#1C2330" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="214" y1="234" x2="498" y2="234" stroke="#1C2330" stroke-width="1" stroke-dasharray="3 3"/>
 
-  <!-- Abstract Candlesticks -->
-  <g stroke-width="1.5" stroke-linecap="round">
-    <line x1="196" y1="226" x2="196" y2="254" stroke="#22B866"/>
-    <rect x="192" y="232" width="8" height="14" rx="1.5" fill="#22B866"/>
+    <!-- Bot Drawing Zones -->
+    <rect x="240" y="136" width="112" height="22" rx="4" fill="#1FA35A" fill-opacity="0.15" stroke="#1FA35A" stroke-opacity="0.45" stroke-dasharray="4 3"/>
+    <rect x="366" y="178" width="122" height="20" rx="4" fill="#EF6461" fill-opacity="0.13" stroke="#EF6461" stroke-opacity="0.45" stroke-dasharray="4 3"/>
 
-    <line x1="228" y1="216" x2="228" y2="244" stroke="#EF6461"/>
-    <rect x="224" y="223" width="8" height="13" rx="1.5" fill="#EF6461"/>
+    <!-- Area Glow + Trend Line -->
+    <path d="M220 226 L248 210 L276 216 L304 186 L332 194 L360 158 L388 168 L416 142 L444 150 L472 126 L494 134 L494 254 L220 254 Z" fill="url(#chartGlow)"/>
+    <path d="M220 226 L248 210 L276 216 L304 186 L332 194 L360 158 L388 168 L416 142 L444 150 L472 126 L494 134" stroke="#22B866" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 
-    <line x1="260" y1="198" x2="260" y2="232" stroke="#22B866"/>
-    <rect x="256" y="206" width="8" height="18" rx="1.5" fill="#22B866"/>
+    <!-- Candlesticks -->
+    <g stroke-width="1.4" stroke-linecap="round">
+      <line x1="232" y1="212" x2="232" y2="238" stroke="#22B866"/>
+      <rect x="228.5" y="218" width="7" height="12" rx="1.5" fill="#22B866"/>
 
-    <line x1="292" y1="186" x2="292" y2="216" stroke="#22B866"/>
-    <rect x="288" y="192" width="8" height="15" rx="1.5" fill="#22B866"/>
+      <line x1="260" y1="202" x2="260" y2="228" stroke="#EF6461"/>
+      <rect x="256.5" y="209" width="7" height="11" rx="1.5" fill="#EF6461"/>
 
-    <line x1="324" y1="168" x2="324" y2="204" stroke="#EF6461"/>
-    <rect x="320" y="176" width="8" height="18" rx="1.5" fill="#EF6461"/>
+      <line x1="288" y1="186" x2="288" y2="216" stroke="#22B866"/>
+      <rect x="284.5" y="194" width="7" height="15" rx="1.5" fill="#22B866"/>
 
-    <line x1="356" y1="154" x2="356" y2="188" stroke="#22B866"/>
-    <rect x="352" y="162" width="8" height="16" rx="1.5" fill="#22B866"/>
+      <line x1="316" y1="176" x2="316" y2="204" stroke="#22B866"/>
+      <rect x="312.5" y="182" width="7" height="13" rx="1.5" fill="#22B866"/>
 
-    <line x1="388" y1="146" x2="388" y2="180" stroke="#22B866"/>
-    <rect x="384" y="152" width="8" height="18" rx="1.5" fill="#22B866"/>
+      <line x1="344" y1="160" x2="344" y2="192" stroke="#EF6461"/>
+      <rect x="340.5" y="168" width="7" height="15" rx="1.5" fill="#EF6461"/>
 
-    <line x1="420" y1="138" x2="420" y2="168" stroke="#EF6461"/>
-    <rect x="416" y="145" width="8" height="14" rx="1.5" fill="#EF6461"/>
+      <line x1="372" y1="148" x2="372" y2="178" stroke="#22B866"/>
+      <rect x="368.5" y="155" width="7" height="14" rx="1.5" fill="#22B866"/>
 
-    <line x1="452" y1="124" x2="452" y2="158" stroke="#22B866"/>
-    <rect x="448" y="131" width="8" height="18" rx="1.5" fill="#22B866"/>
+      <line x1="400" y1="140" x2="400" y2="170" stroke="#22B866"/>
+      <rect x="396.5" y="146" width="7" height="15" rx="1.5" fill="#22B866"/>
 
-    <line x1="484" y1="118" x2="484" y2="148" stroke="#22B866"/>
-    <rect x="480" y="125" width="8" height="14" rx="1.5" fill="#22B866"/>
+      <line x1="428" y1="134" x2="428" y2="160" stroke="#EF6461"/>
+      <rect x="424.5" y="140" width="7" height="12" rx="1.5" fill="#EF6461"/>
+
+      <line x1="456" y1="122" x2="456" y2="152" stroke="#22B866"/>
+      <rect x="452.5" y="128" width="7" height="15" rx="1.5" fill="#22B866"/>
+
+      <line x1="484" y1="116" x2="484" y2="142" stroke="#22B866"/>
+      <rect x="480.5" y="122" width="7" height="12" rx="1.5" fill="#22B866"/>
+    </g>
+
+    <!-- Bottom Neutral Activity Strip -->
+    <rect x="202" y="276" width="96" height="32" rx="7" fill="#161C26" stroke="#232C3A"/>
+    <circle cx="214" cy="292" r="3.5" fill="#1FA35A"/>
+    <rect x="223" y="286" width="54" height="5" rx="2.5" fill="#CBD5E1"/>
+    <rect x="223" y="294" width="38" height="4" rx="2" fill="#475569"/>
+
+    <rect x="308" y="276" width="96" height="32" rx="7" fill="#161C26" stroke="#232C3A"/>
+    <circle cx="320" cy="292" r="3.5" fill="#38BDF8"/>
+    <rect x="329" y="286" width="58" height="5" rx="2.5" fill="#CBD5E1"/>
+    <rect x="329" y="294" width="34" height="4" rx="2" fill="#475569"/>
+
+    <rect x="414" y="276" width="96" height="32" rx="7" fill="#161C26" stroke="#232C3A"/>
+    <circle cx="426" cy="292" r="3.5" fill="#F2B84B"/>
+    <rect x="435" y="286" width="52" height="5" rx="2.5" fill="#CBD5E1"/>
+    <rect x="435" y="294" width="42" height="4" rx="2" fill="#475569"/>
+
+    <!-- Subtle Glass Screen Glare -->
+    <path d="M78 33 H320 L190 321 H78 V33 Z" fill="url(#screenGlare)"/>
   </g>
 
-  <!-- Bottom Activity Strip (No fabricated metrics) -->
-  <rect x="160" y="300" width="116" height="36" rx="8" fill="#171C26" stroke="#252C38"/>
-  <circle cx="174" cy="318" r="4" fill="#1FA35A"/>
-  <rect x="184" y="311" width="64" height="5.5" rx="2.75" fill="#CBD5E1"/>
-  <rect x="184" y="321" width="46" height="4.5" rx="2.25" fill="#475569"/>
+  <!-- Floating Layered UI Card (Reference 3 Depth Effect) -->
+  <g filter="url(#panelFloatShadow)">
+    <rect x="412" y="186" width="166" height="104" rx="12" fill="#171E29" fill-opacity="0.96" stroke="#364152" stroke-width="1.2"/>
+    <rect x="413" y="187" width="164" height="102" rx="11" stroke="#6CF3C8" stroke-opacity="0.22" stroke-width="0.8"/>
+    <circle cx="430" cy="204" r="5" fill="#153424"/>
+    <circle cx="430" cy="204" r="2.5" fill="#26C66F"/>
+    <text x="441" y="207" fill="#F1F5F9" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700">MT5 Bridge Active</text>
+    <rect x="424" y="220" width="142" height="22" rx="6" fill="#11161E" stroke="#253041"/>
+    <rect x="432" y="228" width="68" height="5" rx="2.5" fill="#6CF3C8" fill-opacity="0.7"/>
+    <rect x="526" y="225" width="32" height="12" rx="6" fill="#153424"/>
+    <text x="542" y="233.5" text-anchor="middle" fill="#6EE7B7" font-family="system-ui, -apple-system, sans-serif" font-size="7" font-weight="700">SYNCED</text>
+    <rect x="424" y="250" width="142" height="26" rx="6" fill="#11161E" stroke="#253041"/>
+    <circle cx="436" cy="263" r="3.5" fill="#1FA35A"/>
+    <rect x="446" y="257" width="76" height="4.5" rx="2.25" fill="#CBD5E1"/>
+    <rect x="446" y="265" width="52" height="4" rx="2" fill="#475569"/>
+  </g>
 
-  <rect x="286" y="300" width="116" height="36" rx="8" fill="#171C26" stroke="#252C38"/>
-  <circle cx="300" cy="318" r="4" fill="#38BDF8"/>
-  <rect x="310" y="311" width="68" height="5.5" rx="2.75" fill="#CBD5E1"/>
-  <rect x="310" y="321" width="42" height="4.5" rx="2.25" fill="#475569"/>
-
-  <rect x="412" y="300" width="116" height="36" rx="8" fill="#171C26" stroke="#252C38"/>
-  <circle cx="426" cy="318" r="4" fill="#F2B84B"/>
-  <rect x="436" y="311" width="62" height="5.5" rx="2.75" fill="#CBD5E1"/>
-  <rect x="436" y="321" width="50" height="4.5" rx="2.25" fill="#475569"/>
+  <!-- Laptop Aluminum Hinge & Keyboard Deck -->
+  <g>
+    <!-- Hinge -->
+    <rect x="128" y="331" width="344" height="6" rx="2" fill="url(#hingeGrad)"/>
+    <!-- Perspective Aluminum Deck -->
+    <polygon points="66,336 534,336 582,390 18,390" fill="url(#baseTop)" stroke="#B4BCC8" stroke-width="1"/>
+    <!-- Dark Keyboard Well -->
+    <polygon points="104,342 496,342 512,366 88,366" fill="#1E232C" stroke="#9AA3B0" stroke-width="0.6"/>
+    <!-- Key Rows -->
+    <g fill="#2F3744">
+      <rect x="108" y="344" width="384" height="3.2" rx="1"/>
+      <rect x="104" y="349" width="392" height="3.5" rx="1"/>
+      <rect x="100" y="354" width="400" height="3.5" rx="1"/>
+      <rect x="96" y="359" width="408" height="4" rx="1.2"/>
+    </g>
+    <!-- Trackpad -->
+    <polygon points="244,369 356,369 364,385 236,385" fill="#C4CCD6" stroke="#9EA7B4" stroke-width="0.9"/>
+    <!-- Front Aluminum Lip -->
+    <rect x="18" y="388" width="564" height="10" rx="5" fill="url(#baseLip)" stroke="#9AA3B0" stroke-width="0.8"/>
+    <!-- Thumb Notch -->
+    <rect x="262" y="388" width="76" height="4.5" rx="2.25" fill="#8D97A5"/>
+  </g>
 </svg>
