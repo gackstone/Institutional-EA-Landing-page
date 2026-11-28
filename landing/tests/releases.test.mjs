@@ -266,3 +266,12 @@ test("landing/index.html and landing/js/main.js contain no hardcoded releases/la
   assert.equal(html.includes('id="release-status"'), false);
   assert.match(html, /js\/releases\.js/);
 });
+
+test("Windows SmartScreen help config flag and markup are wired without hardcoded release URLs", () => {
+  assert.equal(typeof releases.SHOW_SMARTSCREEN_HELP, "boolean");
+  assert.equal(releases.SHOW_SMARTSCREEN_HELP, true);
+  const html = fs.readFileSync(path.join(LANDING_DIR, "index.html"), "utf8");
+  assert.match(html, /id="windows-install-help"/);
+  assert.match(html, /data-smartscreen-help/);
+  assert.match(html, /data-win-help-sums/);
+});

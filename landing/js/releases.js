@@ -33,6 +33,7 @@
 
   const CACHE_KEY = "iea_latest_release_v4";
   const CACHE_TTL_MS = 2 * 60 * 1000; // 2 minutes for fast release propagation
+  const SHOW_SMARTSCREEN_HELP = true;
 
   const ANDROID_RELEASE_META = Object.freeze({
     version: "1.3.5",
@@ -401,6 +402,7 @@
     ANDROID_RELEASE_META,
     CACHE_KEY,
     CACHE_TTL_MS,
+    SHOW_SMARTSCREEN_HELP,
     resolveReleaseAssets,
     buildFallbackRelease,
     fetchLatestRelease,

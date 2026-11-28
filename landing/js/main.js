@@ -156,6 +156,21 @@ const PLATFORM_EXT_LABELS = {
 
     highlightDetectedOS();
     renderAndroidMetaBar(release);
+    syncWindowsHelpChecksums(release);
+  }
+
+  /**
+   * Keep the Windows SmartScreen guide's SHA256SUMS.txt link in sync with the active release.
+   */
+  function syncWindowsHelpChecksums(release) {
+    const releasesApi = window.IEAReleases;
+    const url =
+      (release && release.checksumsUrl) ||
+      (releasesApi && releasesApi.DOWNLOAD_URLS && releasesApi.DOWNLOAD_URLS.checksums) ||
+      "#";
+    document.querySelectorAll("[data-win-help-sums]").forEach((link) => {
+      link.setAttribute("href", url);
+    });
   }
 
   /**
@@ -600,8 +615,74 @@ const PLATFORM_EXT_LABELS = {
     items.forEach((item) => observer.observe(item));
   }
 
+  /**
+   * Windows SmartScreen 4-step help: controlled by SHOW_SMARTSCREEN_HELP config flag.
+   */
+  function initSmartScreenHelp() {
+    const releasesApi = window.IEAReleases;
+    const enabled = releasesApi ? releasesApi.SHOW_SMARTSCREEN_HELP !== false : true;
+    const helpElements = document.querySelectorAll("[data-smartscreen-help]");
+
+    if (!enabled) {
+      helpElements.forEach((el) => {
+        el.hidden = true;
+      });
+      return;
+    }
+
+    syncWindowsHelpChecksums(null);
+
+    const details = document.getElementById("windows-install-help");
+    if (!details) return;
+
+    const summary = details.querySelector("summary");
+    const prefersReduced =
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function openGuide(scrollIntoView, focusDelayMs) {
+      details.open = true;
+      if (scrollIntoView) {
+        details.scrollIntoView({
+          behavior: prefersReduced ? "auto" : "smooth",
+          block: "nearest",
+        });
+      }
+      if (summary) {
+        const delay = typeof focusDelayMs === "number" ? focusDelayMs : 0;
+        if (delay > 0) {
+          window.setTimeout(() => {
+            summary.focus({ preventScroll: true });
+          }, delay);
+        } else {
+          summary.focus({ preventScroll: true });
+        }
+      }
+    }
+
+    document.querySelectorAll("[data-open-win-help]").forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        event.preventDefault();
+        openGuide(true, event.detail === 0 ? 120 : 0);
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, "", "#windows-install-help");
+        }
+      });
+    });
+
+    if (window.location.hash === "#windows-install-help") {
+      openGuide(false);
+    }
+
+    window.addEventListener("hashchange", () => {
+      if (window.location.hash === "#windows-install-help") {
+        openGuide(true);
+      }
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     wireStaticLinks();
+    initSmartScreenHelp();
     initNavigation();
     initDeviceTabs();
     initAccordion();

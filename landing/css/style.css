@@ -1344,3 +1344,309 @@ button {
   opacity: 0.85;
   max-width: 540px;
 }
+
+/* Windows SmartScreen Note & Expandable 4-Step Guide */
+[data-smartscreen-help][hidden] {
+  display: none !important;
+}
+
+.win-smartscreen-note {
+  margin: 12px 0 0;
+  max-width: 500px;
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 0.81rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.win-smartscreen-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--color-primary);
+}
+
+.win-smartscreen-link {
+  color: var(--color-primary-hover);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+.win-smartscreen-link:hover {
+  color: var(--color-primary);
+}
+
+.win-help-details {
+  margin-top: 10px;
+  max-width: 500px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: 0 4px 14px rgba(16, 24, 40, 0.04);
+  overflow: hidden;
+}
+
+.win-help-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 15px;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  transition: background-color 0.15s ease;
+}
+
+.win-help-summary::-webkit-details-marker {
+  display: none;
+}
+
+.win-help-summary:hover {
+  background-color: var(--color-surface-muted);
+}
+
+.win-help-chevron {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  transition: transform 0.2s ease;
+}
+
+.win-help-details[open] .win-help-chevron {
+  transform: rotate(180deg);
+}
+
+.win-help-body {
+  padding: 4px 15px 15px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.win-help-steps {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.win-help-steps li {
+  padding-left: 2px;
+}
+
+.win-help-steps code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+
+.win-help-illus {
+  margin: 12px 0 0;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+}
+
+.win-help-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.win-illus-card {
+  fill: #ffffff;
+  stroke: #cbd5e1;
+  stroke-width: 1.25;
+}
+
+.win-illus-header {
+  fill: #1e3a5f;
+}
+
+.win-illus-title {
+  fill: #ffffff;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.win-illus-line {
+  fill: #cbd5e1;
+}
+
+.win-illus-highlight {
+  fill: rgba(31, 163, 90, 0.14);
+  stroke: #1fa35a;
+  stroke-width: 1.5;
+}
+
+.win-illus-link {
+  fill: #0f172a;
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.win-illus-btn-primary {
+  fill: #1e3a5f;
+}
+
+.win-illus-btn-primary-text {
+  fill: #ffffff;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.win-illus-btn-muted {
+  fill: #e2e8f0;
+}
+
+.win-illus-btn-muted-text {
+  fill: #334155;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.win-illus-badge {
+  fill: #1fa35a;
+}
+
+.win-illus-badge-text {
+  fill: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.win-illus-arrow {
+  color: #64748b;
+}
+
+.win-help-illus-caption {
+  margin-top: 6px;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+
+.win-help-footer {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.win-help-meta {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.win-help-inline-link {
+  color: var(--color-primary-hover);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.win-help-inline-link:hover {
+  color: var(--color-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  .win-help-details {
+    background-color: #161b22;
+    border-color: #30363d;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  .win-help-summary {
+    color: #f0f6fc;
+  }
+
+  .win-help-summary:hover {
+    background-color: #1f2630;
+  }
+
+  .win-help-chevron {
+    color: #9ba6b2;
+  }
+
+  .win-help-body {
+    border-top-color: #30363d;
+    color: #e6edf3;
+  }
+
+  .win-help-steps code {
+    background-color: #0d1117;
+    border-color: #30363d;
+    color: #e6edf3;
+  }
+
+  .win-help-illus {
+    background-color: #0d1117;
+    border-color: #30363d;
+  }
+
+  .win-illus-card {
+    fill: #161b22;
+    stroke: #30363d;
+  }
+
+  .win-illus-line {
+    fill: #30363d;
+  }
+
+  .win-illus-link {
+    fill: #f0f6fc;
+  }
+
+  .win-illus-btn-muted {
+    fill: #21262d;
+  }
+
+  .win-illus-btn-muted-text {
+    fill: #c9d1d9;
+  }
+
+  .win-illus-arrow {
+    color: #8b949e;
+  }
+
+  .win-help-illus-caption,
+  .win-help-meta {
+    color: #9ba6b2;
+  }
+
+  .win-help-footer {
+    border-top-color: #30363d;
+  }
+
+  .win-help-inline-link {
+    color: #4ade80;
+  }
+
+  .win-help-inline-link:hover {
+    color: #86efac;
+  }
+}
