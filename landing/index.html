@@ -263,17 +263,25 @@
             </svg>
             <span>
               Windows warning? Click <strong>More info</strong>, then <strong>Run anyway</strong>.
-              <a href="#windows-install-help" class="win-smartscreen-link" data-open-win-help>See steps</a>
+              <a
+                href="#windows-install-help"
+                class="win-smartscreen-link"
+                data-open-win-help
+                aria-expanded="false"
+                aria-controls="windows-install-help"
+              >See steps</a>
             </span>
           </p>
 
-          <details class="win-help-details" id="windows-install-help" data-smartscreen-help>
-            <summary class="win-help-summary">
-              <span>Windows shows a warning? Install in 4 steps</span>
-              <svg class="win-help-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </summary>
+          <div
+            class="win-help-details"
+            id="windows-install-help"
+            role="region"
+            aria-label="Windows install steps"
+            tabindex="-1"
+            data-smartscreen-help
+            hidden
+          >
             <div class="win-help-body">
               <ol class="win-help-steps">
                 <li>Download <code>InstitutionalEA-Setup.exe</code> from arcadefx.live. If your browser asks, click <strong>Keep</strong>.</li>
@@ -340,10 +348,7 @@
                 </p>
               </div>
             </div>
-          </details>
-
-          <!-- Android release metadata & copyable SHA-256 verification -->
-          <div class="android-meta-bar" id="android-meta-bar" aria-live="polite"></div>
+          </div>
         </div>
 
         <div class="hero-visual reveal">

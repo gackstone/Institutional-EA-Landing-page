@@ -155,7 +155,6 @@ const PLATFORM_EXT_LABELS = {
     });
 
     highlightDetectedOS();
-    renderAndroidMetaBar(release);
     syncWindowsHelpChecksums(release);
   }
 
@@ -171,74 +170,6 @@ const PLATFORM_EXT_LABELS = {
     document.querySelectorAll("[data-win-help-sums]").forEach((link) => {
       link.setAttribute("href", url);
     });
-  }
-
-  /**
-   * Render compact Android release metadata (version, size, minSdk, date, copyable SHA-256,
-   * and upgrade note) from centralized ANDROID_RELEASE_META + live GitHub release payload.
-   */
-  function renderAndroidMetaBar(release) {
-    const bar = document.getElementById("android-meta-bar");
-    const releasesApi = window.IEAReleases;
-    const meta = releasesApi && releasesApi.ANDROID_RELEASE_META;
-    if (!bar || !meta) return;
-
-    const liveAndroid = release && release.platforms && release.platforms.android;
-    const versionTag =
-      release && release.tagName ? release.tagName : meta.tagName;
-    const sizeText =
-      liveAndroid && liveAndroid.size && releasesApi
-        ? releasesApi.formatBytes(liveAndroid.size)
-        : meta.sizeLabel;
-    const dateText =
-      release && release.publishedAt && releasesApi
-        ? releasesApi.formatPublishedDate(release.publishedAt) || meta.updatedDate
-        : meta.updatedDate;
-    const shortHash = `${meta.sha256.slice(0, 10)}…${meta.sha256.slice(-8)}`;
-
-    bar.innerHTML = "";
-
-    const line = document.createElement("div");
-    line.className = "android-meta-line";
-    line.textContent = `Android ${versionTag} · ${sizeText} · ${meta.minSdk} · Updated ${dateText}`;
-    bar.appendChild(line);
-
-    const verifyRow = document.createElement("div");
-    verifyRow.className = "android-verify-row";
-
-    const verifyBtn = document.createElement("button");
-    verifyBtn.type = "button";
-    verifyBtn.className = "android-sha-btn";
-    verifyBtn.title = `Click to copy full SHA-256: ${meta.sha256}`;
-    verifyBtn.textContent = `Verify download (SHA-256): ${shortHash}`;
-    verifyBtn.addEventListener("click", () => {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(meta.sha256).then(() => {
-          verifyBtn.textContent = `Copied SHA-256: ${shortHash}`;
-          setTimeout(() => {
-            verifyBtn.textContent = `Verify download (SHA-256): ${shortHash}`;
-          }, 2200);
-        }).catch(() => {});
-      }
-    });
-    verifyRow.appendChild(verifyBtn);
-
-    const sumsLink = document.createElement("a");
-    sumsLink.className = "android-sums-link";
-    sumsLink.href =
-      (release && release.checksumsUrl) ||
-      (releasesApi && releasesApi.DOWNLOAD_URLS && releasesApi.DOWNLOAD_URLS.checksums) ||
-      "#";
-    sumsLink.target = "_blank";
-    sumsLink.rel = "noopener noreferrer";
-    sumsLink.textContent = "SHA256SUMS.txt";
-    verifyRow.appendChild(sumsLink);
-    bar.appendChild(verifyRow);
-
-    const note = document.createElement("p");
-    note.className = "android-upgrade-note";
-    note.textContent = meta.upgradeNote;
-    bar.appendChild(note);
   }
 
   /**
@@ -632,50 +563,47 @@ const PLATFORM_EXT_LABELS = {
 
     syncWindowsHelpChecksums(null);
 
-    const details = document.getElementById("windows-install-help");
-    if (!details) return;
+    const panel = document.getElementById("windows-install-help");
+    if (!panel) return;
 
-    const summary = details.querySelector("summary");
+    const triggers = document.querySelectorAll("[data-open-win-help]");
     const prefersReduced =
       window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function openGuide(scrollIntoView, focusDelayMs) {
-      details.open = true;
-      if (scrollIntoView) {
-        details.scrollIntoView({
+    function setGuideOpen(isOpen, scrollIntoView, moveFocus) {
+      panel.hidden = !isOpen;
+      triggers.forEach((trigger) => {
+        trigger.setAttribute("aria-expanded", String(isOpen));
+      });
+      if (isOpen && scrollIntoView) {
+        panel.scrollIntoView({
           behavior: prefersReduced ? "auto" : "smooth",
           block: "nearest",
         });
       }
-      if (summary) {
-        const delay = typeof focusDelayMs === "number" ? focusDelayMs : 0;
-        if (delay > 0) {
-          window.setTimeout(() => {
-            summary.focus({ preventScroll: true });
-          }, delay);
-        } else {
-          summary.focus({ preventScroll: true });
-        }
+      if (isOpen && moveFocus) {
+        panel.focus({ preventScroll: true });
       }
     }
 
-    document.querySelectorAll("[data-open-win-help]").forEach((trigger) => {
+    triggers.forEach((trigger) => {
       trigger.addEventListener("click", (event) => {
         event.preventDefault();
-        openGuide(true, event.detail === 0 ? 120 : 0);
-        if (window.history && window.history.replaceState) {
+        const shouldOpen = panel.hidden;
+        setGuideOpen(shouldOpen, shouldOpen, shouldOpen);
+        if (shouldOpen && window.history && window.history.replaceState) {
           window.history.replaceState(null, "", "#windows-install-help");
         }
       });
     });
 
     if (window.location.hash === "#windows-install-help") {
-      openGuide(false);
+      setGuideOpen(true, false, false);
     }
 
     window.addEventListener("hashchange", () => {
       if (window.location.hash === "#windows-install-help") {
-        openGuide(true);
+        setGuideOpen(true, true, true);
       }
     });
   }

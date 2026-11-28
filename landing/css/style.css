@@ -1294,57 +1294,6 @@ button {
 }
 
 
-/* Android release metadata & copyable SHA-256 verification strip */
-.android-meta-bar {
-  margin-top: 14px;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  color: var(--text-muted, #64748b);
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.android-meta-line {
-  font-weight: 600;
-}
-
-.android-verify-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-}
-
-.android-sha-btn {
-  background: transparent;
-  border: 1px solid rgba(100, 116, 139, 0.35);
-  border-radius: 6px;
-  padding: 3px 8px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.72rem;
-  color: inherit;
-  cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease;
-}
-
-.android-sha-btn:hover {
-  border-color: currentColor;
-}
-
-.android-sums-link {
-  font-size: 0.74rem;
-  text-decoration: underline;
-  color: inherit;
-}
-
-.android-upgrade-note {
-  margin: 0;
-  font-size: 0.73rem;
-  opacity: 0.85;
-  max-width: 540px;
-}
-
 /* Windows SmartScreen Note & Expandable 4-Step Guide */
 [data-smartscreen-help][hidden] {
   display: none !important;
@@ -1389,43 +1338,8 @@ button {
   overflow: hidden;
 }
 
-.win-help-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 15px;
-  font-family: var(--font-heading);
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--color-text);
-  cursor: pointer;
-  list-style: none;
-  user-select: none;
-  transition: background-color 0.15s ease;
-}
-
-.win-help-summary::-webkit-details-marker {
-  display: none;
-}
-
-.win-help-summary:hover {
-  background-color: var(--color-surface-muted);
-}
-
-.win-help-chevron {
-  flex-shrink: 0;
-  color: var(--color-text-muted);
-  transition: transform 0.2s ease;
-}
-
-.win-help-details[open] .win-help-chevron {
-  transform: rotate(180deg);
-}
-
 .win-help-body {
-  padding: 4px 15px 15px;
-  border-top: 1px solid var(--color-border);
+  padding: 6px 15px 15px;
   font-size: 0.84rem;
   line-height: 1.5;
   color: var(--color-text);
@@ -1580,20 +1494,7 @@ button {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   }
 
-  .win-help-summary {
-    color: #f0f6fc;
-  }
-
-  .win-help-summary:hover {
-    background-color: #1f2630;
-  }
-
-  .win-help-chevron {
-    color: #9ba6b2;
-  }
-
   .win-help-body {
-    border-top-color: #30363d;
     color: #e6edf3;
   }
 

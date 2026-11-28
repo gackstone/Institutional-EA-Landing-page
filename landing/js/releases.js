@@ -34,19 +34,6 @@
   const CACHE_KEY = "iea_latest_release_v4";
   const CACHE_TTL_MS = 2 * 60 * 1000; // 2 minutes for fast release propagation
   const SHOW_SMARTSCREEN_HELP = true;
-
-  const ANDROID_RELEASE_META = Object.freeze({
-    version: "1.3.5",
-    tagName: "v1.3.5",
-    sizeLabel: "77.1 MB",
-    sizeBytes: 80848623,
-    minSdk: "Android 7.0+ (API 24)",
-    updatedDate: "Nov 26, 2026",
-    sha256: "c7c10b8df02bc28f697c0099cc471bb82d1600610c9405fadbb6fd04d6ca7d17",
-    downloadUrl: DOWNLOAD_URLS.android,
-    upgradeNote:
-      "If you have an older version installed, uninstall v1.3.4 first before installing v1.3.5 (one-time signing key upgrade); future updates install directly over it (you may need to allow installs from this source).",
-  });
   const MAX_RETRIES = 2;
   const RETRY_BASE_DELAY_MS = 800;
   const REQUEST_TIMEOUT_MS = 10000;
@@ -399,7 +386,6 @@
     REPO_NAME,
     RELEASES_API_URL,
     DOWNLOAD_URLS,
-    ANDROID_RELEASE_META,
     CACHE_KEY,
     CACHE_TTL_MS,
     SHOW_SMARTSCREEN_HELP,

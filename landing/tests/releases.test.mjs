@@ -270,8 +270,11 @@ test("landing/index.html and landing/js/main.js contain no hardcoded releases/la
 test("Windows SmartScreen help config flag and markup are wired without hardcoded release URLs", () => {
   assert.equal(typeof releases.SHOW_SMARTSCREEN_HELP, "boolean");
   assert.equal(releases.SHOW_SMARTSCREEN_HELP, true);
+  assert.equal("ANDROID_RELEASE_META" in releases, false);
   const html = fs.readFileSync(path.join(LANDING_DIR, "index.html"), "utf8");
   assert.match(html, /id="windows-install-help"/);
+  assert.match(html, /aria-controls="windows-install-help"/);
   assert.match(html, /data-smartscreen-help/);
   assert.match(html, /data-win-help-sums/);
+  assert.equal(html.includes("android-meta-bar"), false);
 });
